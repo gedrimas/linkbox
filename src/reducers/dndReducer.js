@@ -9,7 +9,7 @@ const initialState = {
     'column-1': {
       id: 'column-1',
       title: 'Mailing link',
-      linkIds: ['link-1', 'link-2', 'link-3', 'link-4']
+      linkIds: ['link-1', 'link-2', 'link-3', 'link-4'],
     },
     'column-2': {
       id: 'column-2',
@@ -24,8 +24,7 @@ const dnd = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_COLUMN':
       return {
-        ...state,
-        columns: action.payload,
+        ...state, ...state.columns, ...action.payload,
       }
     case 'ADD_LINK_BLOCK':
       return {
