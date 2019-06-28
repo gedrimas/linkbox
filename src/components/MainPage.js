@@ -12,32 +12,29 @@ export default function MainPage() {
 
   return(
     <DragDropContext>
-    <Droppable droppableId="all-columns">
-      {provided => (
-        <Container
-        {...provided.droppableProps}
-        ref={provided.innerRef}
-        >
-          {data.columnOrder.map((columnId, index) => {
-            const column = data.columns[columnId]
-            const tasks = column.taskIds.map(linkId => data.links[linkId])
+      <Droppable droppableId="all-columns">
+        {provided => (
+          <Container
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+          >
+            {data.columnOrder.map((columnId, index) => {
+              const column = data.columns[columnId]
+              const links = column.linkIds.map(linkId => data.links[linkId])
 
-            const isDropDisabled = index < this.state.homeIndex
-            return (
-              <Column 
-                key={column.id} 
-                column={column} 
-                tasks={tasks}
-                isDropDisabled={isDropDisabled}
-                index={index} 
-              />
-            )  
-          })}
-          {provided.placeholder}
-        </Container>
-      )}
-    </Droppable>
-  </DragDropContext>  
-
+              return (
+                <Column 
+                  key={column.id} 
+                  column={column} 
+                  links={links}
+                  index={index} 
+                />
+              )  
+            })}
+            {provided.placeholder}
+          </Container>
+        )}
+      </Droppable>
+    </DragDropContext>  
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {Droppable, Draggable} from 'react-beautiful-dnd' 
-import Task from './task'
+import Link from './Link'
 
 const Contaner = styled.div`
   margin: 8px;
@@ -46,7 +46,7 @@ export default function Column (props) {
                     isDraggingOver={snapshot.isDraggingOver}
                   >
                     {props.links.map((link, index) => 
-                      <Task key={link.id} task={link} index={index} />
+                      <Link key={link.id} link={link} index={index} />
                     )}
                     {provided.placeholder}
                   </TaskList>

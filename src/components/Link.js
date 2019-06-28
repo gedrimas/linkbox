@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Draggable} from 'react-beautiful-dnd'
+import { Draggable } from 'react-beautiful-dnd'
 
 const Container = styled.div`
   border: solid 1px red;
@@ -18,22 +18,24 @@ const Handle = styled.div`
   margin-right: 8px;
 `
 
-export default function Link(props) {
-    return (
-      <Draggable 
-        draggableId={this.props.task.id} 
-        index={this.props.index}    
-      >
-        {(provided, snapshot) => (
-            <Container
-              {...provided.draggableProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-            >
-              <Handle {...provided.dragHandleProps} />
-              {props.link.content}
-            </Container>
-        )}
-      </Draggable>  
-    )
+export default function Link (props) {
+  return (
+    <Draggable
+      draggableId={props.link.id}
+      index={props.index}
+    >
+      {(provided, snapshot) => (
+        <Container
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+          isDragging={snapshot.isDragging}
+        >
+          <Handle {...provided.dragHandleProps} />
+          {props.link.description}
+          <br />
+          {props.link.link}
+        </Container>
+      )}
+    </Draggable>
+  )
 }
