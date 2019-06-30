@@ -1,4 +1,4 @@
-const content = (state, action) => {
+const content = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_COLUMN':
       return {

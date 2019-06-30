@@ -1,9 +1,10 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
 import dnd from './reducers/dndReducer'
 import content from './reducers/contentReducer'
 
-const rootReducer = combineReducers(dnd, content)
-const store = createStore(rootReducer)
+const rootReducer = combineReducers({ dnd, content })
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export default store
