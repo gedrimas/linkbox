@@ -14,23 +14,19 @@ export default function MainPage() {
   
   const onDragStart = (start) => {
     const startColumn = data.columnOrder.indexOf(start.source.droppableId)
+    setStartColumnIndex(startColumn)
   }
 
   const onDragUpdate = (update) => {
     const { destination } = update
-    console.log(destination)
   }
 
   const onDragEnd = (result) => {
 
-    this.setState({
-      homeIndex: null,
-    })
+    setStartColumnIndex(null)
 
-    document.body.style.color = 'inherit'
-    document.body.style.backgroundColor = 'inherit'
     const {destination, source, draggableId, type} = result 
-
+    console.log('type:', type)
     if (!destination) {
       return
     }
@@ -114,7 +110,11 @@ export default function MainPage() {
       onDragUpdate={onDragUpdate}
       onDragEnd={onDragEnd}
     >
-      <Droppable droppableId="all-columns">
+      <Droppable 
+        droppableId="all-columns"
+        direction="horizontal"
+        type="column"
+      >
         {provided => (
           <Container
             {...provided.droppableProps}
