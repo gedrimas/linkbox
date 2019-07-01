@@ -44,6 +44,10 @@ const dnd = (state = initialState, action) => {
         ...state,
         linkBlock: action.payload,
       }
+    case 'MOVE_COLUMN':
+      return {
+        ...state, columnOrder: action.payload     
+      } 
     default:
       return state
   }

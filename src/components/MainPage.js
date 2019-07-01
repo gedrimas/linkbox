@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import Column from './Column'
+import { moveColumn } from '../store/actions/dndActions'
 
 const Container = styled.div`
   display: flex;
@@ -11,6 +12,7 @@ export default function MainPage() {
   const [startColumnIndex, setStartColumnIndex] = useState()
 
   const data = useSelector(state => state.dnd)
+  const dispatch = useDispatch()
   
   const onDragStart = (start) => {
     const startColumn = data.columnOrder.indexOf(start.source.droppableId)
@@ -26,7 +28,6 @@ export default function MainPage() {
     setStartColumnIndex(null)
 
     const {destination, source, draggableId, type} = result 
-    console.log('type:', type)
     if (!destination) {
       return
     }
@@ -38,24 +39,22 @@ export default function MainPage() {
     }
 
     if(type === 'column') {
-      const newColumnOrder = Array.from(this.state.columnOrder)
+      const newColumnOrder = Array.from(data.columnOrder)
       newColumnOrder.splice(source.index, 1)
       newColumnOrder.splice(destination.index, 0, draggableId)
-
-      const newState = {
-        ...this.state,
-        columnOrder: newColumnOrder,
-      }
-
-      this.setState(newState)
+      dispatch(moveColumn(newColumnOrder))
       return
     }
 
-    const start = this.state.columns[source.droppableId]
-    const finish = this.state.columns[destination.droppableId]
+    const start = data.columns[source.droppableId]
+    const finish = data.columns[destination.droppableId]
+
+    console.log('start', start)
+    console.log('finish', finish)
+
 
     if(start === finish){
-      const newTaskIds = Array.from(start.taskIds)
+      const newTaskIds = Array.from(start.linkIds)
       newTaskIds.splice(source.index, 1)
       newTaskIds.splice(destination.index, 0, draggableId)
       
