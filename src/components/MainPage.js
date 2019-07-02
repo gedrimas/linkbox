@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import Column from './Column'
-import { moveColumn } from '../store/actions/dndActions'
+import { 
+  moveColumn,
+  moveLinkInsideColumn, 
+} from '../store/actions/dndActions'
 
 const Container = styled.div`
   display: flex;
@@ -54,16 +57,16 @@ export default function MainPage() {
 
 
     if(start === finish){
-      const newTaskIds = Array.from(start.linkIds)
-      newTaskIds.splice(source.index, 1)
-      newTaskIds.splice(destination.index, 0, draggableId)
+      const newLinksIds = Array.from(start.linksIds)
+      newLinksIds.splice(source.index, 1)
+      newLinksIds.splice(destination.index, 0, draggableId)
       
       const newColumn = {
         ...start, 
-        taskIds: newTaskIds,
+        linksIds: newLinksIds,
       }
-  
-      const newState = {
+      dispatch(moveLinkInsideColumn(start.id, newLinksIds))
+/*       const newState = {
         ...this.state, 
         columns: {
           ...this.state.columns,
@@ -71,7 +74,7 @@ export default function MainPage() {
         }
       }
   
-      this.setState(newState)
+      this.setState(newState) */
       return
     }
 
@@ -105,23 +108,26 @@ export default function MainPage() {
 
   return (
     <DragDropContext
-      onDragStart={onDragStart}
-      onDragUpdate={onDragUpdate}
-      onDragEnd={onDragEnd}
+    onDragStart={onDragStart}
+    onDragUpdate={onDragUpdate}
+    onDragEnd={onDragEnd}
     >
       <Droppable 
         droppableId="all-columns"
         direction="horizontal"
         type="column"
-      >
+        >
         {provided => (
           <Container
-            {...provided.droppableProps}
-            ref={provided.innerRef}
+          {...provided.droppableProps}
+          ref={provided.innerRef}
           >
+          {console.log('data.columnOrder', data.columnOrder)}
+          {console.log('data', data)}
+
             {data.columnOrder.map((columnId, index) => {
               const column = data.columns[columnId]
-              const links = column.linkIds.map(linkId => data.links[linkId])
+              const links = column.linksIds.map(linkId => data.links[linkId])
 
               return (
                 <Column
