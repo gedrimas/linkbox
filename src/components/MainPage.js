@@ -5,7 +5,9 @@ import styled from 'styled-components'
 import Column from './Column'
 import { 
   moveColumn,
-  moveLinkInsideColumn, 
+  moveLinkInsideColumn,
+  startMoveLinkBetweenColumns,
+  finishMoveLinkBetweenColumns,
 } from '../store/actions/dndActions'
 
 const Container = styled.div`
@@ -48,60 +50,23 @@ export default function MainPage() {
       dispatch(moveColumn(newColumnOrder))
       return
     }
-
+    
     const start = data.columns[source.droppableId]
     const finish = data.columns[destination.droppableId]
-
-    console.log('start', start)
-    console.log('finish', finish)
-
-
     if(start === finish){
       const newLinksIds = Array.from(start.linksIds)
       newLinksIds.splice(source.index, 1)
       newLinksIds.splice(destination.index, 0, draggableId)
-      
-      const newColumn = {
-        ...start, 
-        linksIds: newLinksIds,
-      }
       dispatch(moveLinkInsideColumn(start.id, newLinksIds))
-/*       const newState = {
-        ...this.state, 
-        columns: {
-          ...this.state.columns,
-          [newColumn.id]: newColumn,
-        }
-      }
-  
-      this.setState(newState) */
       return
     }
 
-    //Moving from one list to another
-    const startTaskIds = Array.from(start.taskIds)
-    startTaskIds.splice(source.index, 1)
-    const newStart = {
-      ...start,
-      taskIds: startTaskIds,
-    }
-    
-    const finishTaskIds = Array.from(finish.taskIds)
-    finishTaskIds.splice(destination.index, 0, draggableId)
-    const newFinish = {
-      ...finish,
-      taskIds: finishTaskIds,
-    }
-
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      }
-    }
-    this.setState(newState)
+    const startLinksIds = Array.from(start.linksIds)
+    startLinksIds.splice(source.index, 1)
+    const finishLinksIds = Array.from(finish.linksIds)
+    finishLinksIds.splice(destination.index, 0, draggableId)
+    dispatch(startMoveLinkBetweenColumns(start.id, startLinksIds))
+    dispatch(finishMoveLinkBetweenColumns(finish.id, finishLinksIds))
   }
 
 
@@ -122,9 +87,6 @@ export default function MainPage() {
           {...provided.droppableProps}
           ref={provided.innerRef}
           >
-          {console.log('data.columnOrder', data.columnOrder)}
-          {console.log('data', data)}
-
             {data.columnOrder.map((columnId, index) => {
               const column = data.columns[columnId]
               const links = column.linksIds.map(linkId => data.links[linkId])

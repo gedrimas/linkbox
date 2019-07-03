@@ -12,3 +12,19 @@ export function moveLinkInsideColumn(id, newLinkOrder) {
     payload: newLinkOrder,
   }
 }
+
+export function startMoveLinkBetweenColumns(startColumn, startColumnLinksOrder) {
+  return {
+    type: 'START_MOVE_LINK_BETWEEN_COLUMNS',
+    startColumn,
+    startColumnLinksOrder,
+  }
+}
+
+export function finishMoveLinkBetweenColumns(finishColumn, finishColumnLinksOrder) {
+  return {
+    type: 'FINISH_MOVE_LINK_BETWEEN_COLUMNS',
+    finishColumn,
+    finishColumnLinksOrder,
+  }
+}

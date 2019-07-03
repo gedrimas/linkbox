@@ -4,14 +4,10 @@ const initialState = {
     'link-2': { id: 'link-2', description: 'Watch my favorite show', link: 'www.mail.ru' },
     'link-3': { id: 'link-3', description: 'Chage my phone', link: 'www.mail.ru' },
     'link-4': { id: 'link-4', description: 'Cook dinner', link: 'www.mail.ru' },
-
     'link-5': { id: 'link-5', description: 'link ok block 2', link: 'www.mail.ru' },
-    'link-6': { id: 'link-7', description: 'link ok block 2', link: 'www.mail.ru' },
-
-
+    'link-6': { id: 'link-6', description: 'link ok block 2', link: 'www.mail.ru' },
     'link-7': { id: 'link-7', description: 'link ok block 2', link: 'www.mail.ru' },
     'link-8': { id: 'link-8', description: 'link ok block 2', link: 'www.mail.ru' },
-
   },
   columns: {
     'column-1': {
@@ -55,7 +51,23 @@ const dnd = (state = initialState, action) => {
             ...state.columns[action.columnId], linksIds: action.payload
           }
         }
-      }   
+      }
+    case 'START_MOVE_LINK_BETWEEN_COLUMNS':
+      return {
+        ...state, columns: {
+          ...state.columns, [action.startColumn]: {
+            ...state.columns[action.startColumn], linksIds: action.startColumnLinksOrder 
+          } 
+        }
+      }
+    case 'FINISH_MOVE_LINK_BETWEEN_COLUMNS':
+      return {
+        ...state, columns: {
+          ...state.columns, [action.finishColumn]: {
+            ...state.columns[action.finishColumn], linksIds: action.finishColumnLinksOrder
+          }
+        }
+      }     
     default:
       return state
   }
