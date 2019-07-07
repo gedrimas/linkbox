@@ -1,10 +1,10 @@
 const initialState = {
   links: {
-    'link-1': { id: 'link-1', description: 'My first link', link: 'www.mail.ru' },
-    'link-2': { id: 'link-2', description: 'Watch my favorite show', link: 'www.mail.ru' },
-    'link-3': { id: 'link-3', description: 'Chage my phone', link: 'www.mail.ru' },
-    'link-4': { id: 'link-4', description: 'Cook dinner', link: 'www.mail.ru' },
-    'link-5': { id: 'link-5', description: 'link ok block 2', link: 'www.mail.ru' },
+    'link-1': { id: 'link-1', description: 'My first link', link: 'https://css-tricks.com/snippets/css/a-guide-to-flexbox/#flexbox-background' },
+    'link-2': { id: 'link-2', description: 'Watch my favorite show', link: 'https://react-bootstrap.github.io/components/cards/' },
+    'link-3': { id: 'link-3', description: 'Chage my phone', link: 'https://stackoverflow.com/questions/8825144/detect-double-tap-on-ipad-or-iphone-screen-using-javascript' },
+    'link-4': { id: 'link-4', description: 'Cook dinner', link: 'https://javascript.ru/forum/misc/12605-analog-funkcii-paskal-delay-v-javascript.html' },
+    'link-5': { id: 'link-5', description: 'link ok block 2dsdasdasd asd asd as as asda sdasd asd as d sad ', link: 'www.mail.ru' },
     'link-6': { id: 'link-6', description: 'link ok block 2', link: 'www.mail.ru' },
     'link-7': { id: 'link-7', description: 'link ok block 2', link: 'www.mail.ru' },
     'link-8': { id: 'link-8', description: 'link ok block 2', link: 'www.mail.ru' },
