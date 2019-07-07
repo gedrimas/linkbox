@@ -83,15 +83,6 @@ export default function Column (props) {
                     )
                   }
                 </Droppable>
-
-{/*                 <Card.Link 
-                  href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/#flexbox-background" 
-                  target="_blank"
-                  onClick={(e) => handleClick(e)}
-                  onDoubleClick={(e) => handleDbClick(e)}
-                >Card Link
-                </Card.Link> */}
-
               </Card.Body>
           </StyledCard>
         )}

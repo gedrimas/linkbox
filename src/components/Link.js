@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
-import Card from 'react-bootstrap/Card' 
+import Card from 'react-bootstrap/Card'
+import ReactTinyLink from "react-tiny-link" 
 
 const Container = styled.div`
   border: solid 1px green;
@@ -66,18 +67,13 @@ export default function Link (props) {
         >
             <Card.Body
             >
-              <Card.Text
-              >
-                {props.link.description}
-              </Card.Text>
-              <a
-                href={props.link.link}
-                target="_blank"
-                onClick={(e) => handleClick(e)}
-                onDoubleClick={(e) => handleDbClick(e)}
-              >
-                Link
-              </a>
+              <ReactTinyLink
+                cardSize="large"
+                showGraphic={true}
+                maxLine={5}        
+                header={true}
+                url={props.link.link}
+              />
             </Card.Body>
           </Card>
       )}
