@@ -12,6 +12,7 @@ const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+  background-color: #FFF267;
 `
 
 const TaskList = styled.div`

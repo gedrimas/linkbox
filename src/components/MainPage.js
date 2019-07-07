@@ -12,6 +12,7 @@ import {
 
 const Container = styled.div`
   display: flex;
+  background-color: #5FDA00;
 `
 export default function MainPage() {
   const [startColumnIndex, setStartColumnIndex] = useState()

@@ -60,10 +60,10 @@ export default function Link (props) {
     >
       {(provided, snapshot) => (
         <Card
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          isDragging={snapshot.isDragging}
-          {...provided.dragHandleProps}
+        {...provided.draggableProps}
+        ref={provided.innerRef}
+        isDragging={snapshot.isDragging}
+        {...provided.dragHandleProps}
         >
             <Card.Body
             >
@@ -75,7 +75,7 @@ export default function Link (props) {
                 url={props.link.link}
               />
             </Card.Body>
-          </Card>
+        </Card>
       )}
     </Draggable>
   )
