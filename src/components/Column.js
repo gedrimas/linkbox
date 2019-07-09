@@ -1,6 +1,6 @@
 
 import React, {useState} from 'react'
-import Card from 'react-bootstrap/Card'
+import {Card, Badge} from 'react-bootstrap'
 import styled from 'styled-components'
 import {Droppable, Draggable} from 'react-beautiful-dnd'
 import Link from './Link'
@@ -14,6 +14,14 @@ const StyledCard = styled(Card)`
   flex: 1 0 auto;
   background-color: #FFF267;
 `
+const StyledCardTitle = styled(Card.Title)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px;
+  color: #0B1DC9;
+  font-weight: 700;
+`
 
 const TaskList = styled.div`
   padding: 4px;
@@ -21,6 +29,17 @@ const TaskList = styled.div`
   background-color: ${props => props.isDraggingOver ? 'skyblue' : 'inherit'}
   flex-grow: 1;
   min-height: 100px;
+`
+const AddLinkButton = styled.button`
+  color: green;
+  border: none;
+  background: none;
+  margin-right: 8px;
+`
+const DellColumnButton = styled.button`
+  color: red;
+  border: none;
+  background: none;
 `
 
 export default function Column (props) {
@@ -63,9 +82,14 @@ export default function Column (props) {
           ref={provided.innerRef}
           >
             <Card.Body>
-              <Card.Title {...provided.dragHandleProps}>
-                {props.column.title}
-              </Card.Title>
+              <StyledCardTitle 
+                {...provided.dragHandleProps}>
+                <h3>{props.column.title}</h3>
+                <div>
+                  <Badge variant="success">Add</Badge>
+                  <Badge variant="danger">Del</Badge>
+                </div>
+              </StyledCardTitle>
                 <Droppable 
                   droppableId={props.column.id}
                   isDropDisabled={props.isDropDisabled}

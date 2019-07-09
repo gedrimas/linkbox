@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
-import Card from 'react-bootstrap/Card'
+import {Card, Badge} from 'react-bootstrap'
 import ReactTinyLink from "react-tiny-link" 
 
 const Container = styled.div`
@@ -18,6 +18,12 @@ const Handle = styled.div`
   background-color: orange;
   border-radius: 4px;
   margin-right: 8px;
+`
+const DellColumnButton = styled.button`
+  color: red;
+  border-color: red;
+  border-radius: 50%;
+  background: none;
 `
 
 export default function Link (props) {
@@ -65,8 +71,8 @@ export default function Link (props) {
         isDragging={snapshot.isDragging}
         {...provided.dragHandleProps}
         >
-            <Card.Body
-            >
+            <Card.Body>
+              <Badge variant="danger">Del</Badge>
               <ReactTinyLink
                 cardSize="large"
                 showGraphic={true}
