@@ -30,6 +30,11 @@ const TaskList = styled.div`
   flex-grow: 1;
   min-height: 100px;
 `
+const ColumnControlBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
 const AddLinkButton = styled.button`
   color: green;
   border: none;
@@ -85,10 +90,10 @@ export default function Column (props) {
               <StyledCardTitle 
                 {...provided.dragHandleProps}>
                 <h3>{props.column.title}</h3>
-                <div>
+                <ColumnControlBlock>
                   <Badge variant="success">Add</Badge>
-                  <Badge variant="danger">Del</Badge>
-                </div>
+                  <Badge variant="danger" style={{width:'100%'}}>Del</Badge>
+                </ColumnControlBlock>
               </StyledCardTitle>
                 <Droppable 
                   droppableId={props.column.id}
