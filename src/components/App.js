@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import AuthLogModal from './modals/AuthLogModal'
 import MainPage from './MainPage'
 
 export default function App() {
+  const [modalShow, setModalShow] = React.useState(true);
+
   return (
-    <MainPage />
+    <>
+      <AuthLogModal
+        show={modalShow}
+        onHide={() => setModalShow(false)} 
+      />
+      <MainPage />
+    </>
   );
 }
