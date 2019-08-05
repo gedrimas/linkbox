@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 import CON from '../constants'
 
 export function registration({regName, regPass}) {
@@ -7,15 +8,26 @@ export function registration({regName, regPass}) {
 console.log('regName', regName)
 console.log('regPass', regPass)
 
-    axios({
+/*     axios({
       method: 'post',
       url: 'http://localhost:3001/register',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: {
-        name: regName,
-        password: regPass,
+      name: regName,
+      password: regPass,
+
+    }) */
+
+    const requestBody = {
+      name: regName,
+      password: regPass,
+    }    
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-    })
+    }
+    axios.post('http://localhost:3001/register', qs.stringify(requestBody), config)
       .then(res => dispatch(registrationSuccess(res)))
       .catch(err => dispatch(registrationFailure(err)))
   }
