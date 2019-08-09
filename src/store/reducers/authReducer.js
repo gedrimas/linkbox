@@ -15,6 +15,11 @@ const authorization = (state = initialState, action) => {
     }
     case(CON.REGISTRATION_SUCCESS):
       console.log('RES - - - -', action.payload)
+      return {
+        ...state,
+        login: action.payload.regName,
+        password: action.payload.regPass,
+      }
       
     default:
       return state      

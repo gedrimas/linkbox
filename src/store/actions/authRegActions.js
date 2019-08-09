@@ -5,17 +5,6 @@ import CON from '../constants'
 export function registration({regName, regPass}) {
   return dispatch => {
     dispatch(registrationStart())
-console.log('regName', regName)
-console.log('regPass', regPass)
-
-/*     axios({
-      method: 'post',
-      url: 'http://localhost:3001/register',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      name: regName,
-      password: regPass,
-
-    }) */
 
     const requestBody = {
       name: regName,
@@ -27,9 +16,61 @@ console.log('regPass', regPass)
         'Content-Type': 'application/x-www-form-urlencoded'
       }
     }
-    axios.post('http://localhost:3001/register', qs.stringify(requestBody), config)
-      .then(res => dispatch(registrationSuccess(res)))
-      .catch(err => dispatch(registrationFailure(err)))
+
+/*     const userRegistration = () =>      
+      axios.post('http://localhost:3001/register', qs.stringify(requestBody), config)
+        .then(res => dispatch(registrationSuccess(res, regName, regPass)))
+        .catch(err => dispatch(registrationFailure(err))) */
+
+        const userRegistration = () => fetch('http://localhost:3001/register',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: qs.stringify(requestBody)
+        }).then(res => res.json())  
+    
+    
+        const getUserToken = (requestBody) => fetch('http://localhost:3001/sign_in',{
+          
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: qs.stringify(requestBody)
+        }).then(res => res.json())
+
+/*     const getUserToken = (regName, regPass) => {
+      const requestBody = {
+        name: regName,
+        password: regPass,
+      }    
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+      
+      axios.post('http://localhost:3001/sign_in', qs.stringify(requestBody), config)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    } */
+
+
+    const authorizeWithGithub = async () => {
+      const { name } = await userRegistration()
+      const paramsToGetToken = {
+        name: name,
+        password: regPass,
+      }
+      const { token } = await getUserToken(paramsToGetToken)
+      console.log('TEST-name', name)
+      console.log('TEST-token', token)
+    }
+
+    authorizeWithGithub()
+
   }
 }
 
@@ -39,10 +80,10 @@ export function registrationStart(){
   }
 }
 
-export function registrationSuccess(res){
+export function registrationSuccess(res, regName, regPass){
   return {
     type: CON.REGISTRATION_SUCCESS,
-    payload: res 
+    payload: { res, regName, regPass }
   }
 }
 
