@@ -1,7 +1,6 @@
-import axios from 'axios'
+
 import qs from 'qs'
 import CON from '../constants'
-
 
 export function registrationStart() {
   return {
@@ -9,13 +8,10 @@ export function registrationStart() {
   }
 }
 
-//export function authorization({ logName, logPass }) {
-//}
-
-export function registrationSuccess(regNameAndPass) {
+export function registrationSuccess(res, regName, regPass) {
   return {
     type: CON.REGISTRATION_SUCCESS,
-    payload: regNameAndPass,
+    payload: { res, regName, regPass },
   }
 }
 
@@ -25,7 +21,6 @@ export function registrationFailure(err) {
     payload: { err },
   }
 }
-
 export function registration({ regName, regPass }) {
   return (dispatch) => {
     dispatch(registrationStart())
@@ -35,13 +30,32 @@ export function registration({ regName, regPass }) {
       password: regPass,
     }
 
-    const config = {
+    const userRegistration = () => fetch('http://localhost:3001/register', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
+      body: qs.stringify(requestBody),
+    }).then(res => res.json())
+
+    const getUserToken = paramsToGetToken => fetch('http://localhost:3001/sign_in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: qs.stringify(paramsToGetToken),
+    }).then(res => res.json())
+
+    const authorizeWithGithub = async () => {
+      const { name } = await userRegistration()
+      const paramsToGetToken = {
+        name,
+        password: regPass,
+      }
+      const { token } = await getUserToken(paramsToGetToken)
+      console.log('TEST-name', name)
+      console.log('TEST-token', token)
     }
-    axios.post('http://localhost:3001/register', qs.stringify(requestBody), config)
-      .then(res => dispatch(registrationSuccess(res)))
-      .catch(err => dispatch(registrationFailure(err)))
+    authorizeWithGithub()
   }
 }

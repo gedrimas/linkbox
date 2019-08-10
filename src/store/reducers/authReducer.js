@@ -17,9 +17,10 @@ const registration = (state = initialState, action) => {
       console.log('RES - - - -', action.payload)
       return {
         ...state,
-        login: action.payload,
-        //password: action.payload.regPass,
+        login: action.payload.regName,
+        password: action.payload.regPass,
       }
+      
     default:
       return state
   }
