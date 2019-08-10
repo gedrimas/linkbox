@@ -18,13 +18,16 @@ export default function AuthLogModal(props) {
   const [regPass, setRegPass] = useState('')
   const [logName, setLogName] = useState('')
   const [logPass, setLogPass] = useState('')
+  const [textButton, setTextButton] = useState('Registration')
   const dispatch = useDispatch()
 
   const trimInputs = (select) => {
     if (select === 'first') {
+      setTextButton('Registration')
       setLogName('')
       setLogPass('')
     } else if (select === 'second') {
+      setTextButton('Authorization')
       setRegName('')
       setRegPass('')
     }
@@ -121,7 +124,7 @@ export default function AuthLogModal(props) {
         </Tab.Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => dispatch(registration({ regName, regPass }))}>Register</Button>
+        <Button onClick={() => dispatch(registration({ regName, regPass }))}>{textButton}</Button>
       </Modal.Footer>
     </Modal>
   )

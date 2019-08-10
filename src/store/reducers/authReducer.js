@@ -1,8 +1,6 @@
 import CON from '../constants'
 
 const initialState = {
-  login: '',
-  password: '',
   token: '',
 }
 
@@ -17,8 +15,7 @@ const registration = (state = initialState, action) => {
       console.log('RES - - - -', action.payload)
       return {
         ...state,
-        login: action.payload.regName,
-        password: action.payload.regPass,
+        token: `JWT ${action.payload}`,
       }
       
     default:

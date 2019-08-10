@@ -1,17 +1,20 @@
 
 import qs from 'qs'
 import CON from '../constants'
+import { state } from '../../data/initialState'
 
+const stateForSend = {}
+stateForSend.state = state
 export function registrationStart() {
   return {
     type: CON.REGISTRATION_START,
   }
 }
 
-export function registrationSuccess(res, regName, regPass) {
+export function registrationSuccess(token) {
   return {
     type: CON.REGISTRATION_SUCCESS,
-    payload: { res, regName, regPass },
+    payload: token,
   }
 }
 
@@ -46,16 +49,28 @@ export function registration({ regName, regPass }) {
       body: qs.stringify(paramsToGetToken),
     }).then(res => res.json())
 
-    const authorizeWithGithub = async () => {
+    const setInitialState = token => fetch('http://localhost:3001/mylinks', {
+      method: 'POST',
+      headers: {
+        Authorization: `JWT ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(stateForSend),
+    }).then(res => console.log(res))
+
+    const registerAndGetToken = async () => {
       const { name } = await userRegistration()
+      console.log('JSON.stringify(state)', JSON.stringify(stateForSend))
       const paramsToGetToken = {
         name,
         password: regPass,
       }
       const { token } = await getUserToken(paramsToGetToken)
-      console.log('TEST-name', name)
-      console.log('TEST-token', token)
+      dispatch(registrationSuccess(token))
+      setTimeout(() => {
+        setInitialState(token)
+      }, 2000);
     }
-    authorizeWithGithub()
+    registerAndGetToken()
   }
 }
