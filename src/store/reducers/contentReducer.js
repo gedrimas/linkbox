@@ -14,7 +14,7 @@ const content = (state = {}, action) => {
       return {
         ...state,
         link: action.link,
-      } 
+      }
     default:
       return state
   }

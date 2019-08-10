@@ -1,24 +1,28 @@
 import CON from '../constants'
 
 const initialState = {
-  login:'',
+  login: '',
   password: '',
   token: '',
 }
 
-const authorization = (state = initialState, action) => {
-  switch(action.type){
-    case(CON.REGISTRATION_START):
-    return {
-      ...state,
-      token: 'pending',     
-    }
-    case(CON.REGISTRATION_SUCCESS):
+const registration = (state = initialState, action) => {
+  switch (action.type) {
+    case (CON.REGISTRATION_START):
+      return {
+        ...state,
+        token: 'pending',
+      }
+    case (CON.REGISTRATION_SUCCESS):
       console.log('RES - - - -', action.payload)
-      
+      return {
+        ...state,
+        login: action.payload,
+        //password: action.payload.regPass,
+      }
     default:
-      return state      
-  }    
+      return state
+  }
 }
 
-export default authorization
+export default registration

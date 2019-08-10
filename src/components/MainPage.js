@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 import Column from './Column'
-import { 
+import {
   moveColumn,
   moveLinkInsideColumn,
   startMoveLinkBetweenColumns,
