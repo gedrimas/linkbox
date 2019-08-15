@@ -38,7 +38,12 @@ const dnd = (state = initialState, action) => {
             ...state.columns[action.finishColumn], linksIds: action.finishColumnLinksOrder
           }
         }
-      }     
+      }
+    case 'SET_USER_DATA':
+      console.log('7777777777777777', action.payload)
+      return {
+        ...state, ...action.payload,
+      }        
     default:
       return state
   }

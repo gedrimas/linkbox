@@ -5,16 +5,24 @@ import { state } from '../../data/initialState'
 
 const stateForSend = {}
 stateForSend.state = state
-export function registrationStart() {
+
+function registrationStart() {
   return {
     type: CON.REGISTRATION_START,
   }
 }
 
-export function registrationSuccess(token) {
+function registrationSuccess(token) {
   return {
     type: CON.REGISTRATION_SUCCESS,
     payload: token,
+  }
+}
+
+function setUserState(s) {
+  return {
+    type: 'SET_USER_DATA',
+    payload: s,
   }
 }
 
@@ -24,6 +32,22 @@ export function registrationFailure(err) {
     payload: { err },
   }
 }
+
+const getUserToken = paramsToGetToken => fetch('http://localhost:3001/sign_in', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: qs.stringify(paramsToGetToken),
+}).then(res => res.json())
+
+const getUserData = token => fetch('http://localhost:3001/mylinks', {
+  method: 'GET',
+  headers: {
+    Authorization: `JWT ${token}`,
+  },
+}).then(res => res.json())
+
 export function registration({ regName, regPass }) {
   return (dispatch) => {
     dispatch(registrationStart())
@@ -41,13 +65,6 @@ export function registration({ regName, regPass }) {
       body: qs.stringify(requestBody),
     }).then(res => res.json())
 
-    const getUserToken = paramsToGetToken => fetch('http://localhost:3001/sign_in', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: qs.stringify(paramsToGetToken),
-    }).then(res => res.json())
 
     const setInitialState = token => fetch('http://localhost:3001/mylinks', {
       method: 'POST',
@@ -72,5 +89,21 @@ export function registration({ regName, regPass }) {
       }, 2000);
     }
     registerAndGetToken()
+  }
+}
+
+export function authorization({ logName, logPass }) {
+  return (dispatch) => {
+    const paramsToGetToken = {
+      name: logName,
+      password: logPass,
+    }
+    const authAndGetUserData = async () => {
+      const { token } = await getUserToken(paramsToGetToken)
+      const { state: s } = await getUserData(token)
+      dispatch(setUserState(s))
+      console.log('res = ', s)
+    }
+    authAndGetUserData()
   }
 }

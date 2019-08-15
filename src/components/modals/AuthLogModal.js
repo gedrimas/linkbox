@@ -11,7 +11,7 @@ import {
   FormControl,
 } from 'react-bootstrap'
 
-import { registration } from '../../store/actions/authRegActions'
+import { registration, authorization } from '../../store/actions/authRegActions'
 
 export default function AuthLogModal(props) {
   const [regName, setRegName] = useState('')
@@ -19,17 +19,25 @@ export default function AuthLogModal(props) {
   const [logName, setLogName] = useState('')
   const [logPass, setLogPass] = useState('')
   const [textButton, setTextButton] = useState('Registration')
+
   const dispatch = useDispatch()
+
+  const choseAction = (name, pass) => {
+    textButton === 'Registration' ? registration(name, pass)
+      : authorization(name, pass)
+  }
 
   const trimInputs = (select) => {
     if (select === 'first') {
       setTextButton('Registration')
       setLogName('')
       setLogPass('')
+      choseAction(registration, regName, regPass)
     } else if (select === 'second') {
       setTextButton('Authorization')
       setRegName('')
       setRegPass('')
+      choseAction(authorization, logName, logPass)
     }
   }
 
@@ -124,7 +132,13 @@ export default function AuthLogModal(props) {
         </Tab.Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => dispatch(registration({ regName, regPass }))}>{textButton}</Button>
+        <Button
+          onClick={textButton === 'Registration'
+            ? () => dispatch(registration({ regName, regPass }))
+            : () => dispatch(authorization({ logName, logPass }))}
+        >
+          {textButton}
+        </Button>
       </Modal.Footer>
     </Modal>
   )
