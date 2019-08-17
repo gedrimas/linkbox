@@ -1,6 +1,6 @@
 
-import React, {useState} from 'react'
-import {Card, Badge} from 'react-bootstrap'
+import React from 'react'
+import { Card, Badge } from 'react-bootstrap'
 import styled from 'styled-components'
 import {Droppable, Draggable} from 'react-beautiful-dnd'
 import Link from './Link'

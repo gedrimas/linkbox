@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
+import { Badge } from 'react-bootstrap'
 import Column from './Column'
 import {
   moveColumn,
@@ -9,22 +10,29 @@ import {
   startMoveLinkBetweenColumns,
   finishMoveLinkBetweenColumns,
 } from '../store/actions/dndActions'
+import {
+  addBlock,
+} from '../store/actions/contentActions'
 
 const Container = styled.div`
   display: flex;
-
 `
+const StyledBage = styled(Badge)`
+  position: absolute;
+  margin: 5px 0px 0px 5px;
+  z-index: 999;
+`
+
 export default function MainPage() {
   const [startColumnIndex, setStartColumnIndex] = useState()
 
   const data = useSelector(state => state.dnd)
   const dispatch = useDispatch()
-  console.log('STATE', data)
   const onDragStart = (start) => {
     const startColumn = data.columnOrder.indexOf(start.source.droppableId)
     setStartColumnIndex(startColumn)
   }
-
+console.log('STATE', data)
   const onDragUpdate = (update) => {
     const { destination } = update
   }
@@ -70,19 +78,24 @@ export default function MainPage() {
     dispatch(finishMoveLinkBetweenColumns(finish.id, finishLinksIds))
   }
 
-
-
   return (
     <DragDropContext
-    onDragStart={onDragStart}
-    onDragUpdate={onDragUpdate}
-    onDragEnd={onDragEnd}
+      onDragStart={onDragStart}
+      onDragUpdate={onDragUpdate}
+      onDragEnd={onDragEnd}
     >
-      <Droppable 
+      <StyledBage
+        pill
+        variant="light"
+        onClick={() => dispatch(addBlock())}
+      >
+        Create new block
+      </StyledBage>
+      <Droppable
         droppableId="all-columns"
         direction="horizontal"
         type="column"
-        >
+      >
         {provided => (
           <Container
           {...provided.droppableProps}

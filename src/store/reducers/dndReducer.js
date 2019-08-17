@@ -1,10 +1,28 @@
+import uniqid from 'uniqid'
+import CON from '../constants'
 import { state as initialState } from '../../data/initialState'
 
 const dnd = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_COLUMN':
+    case CON.ADD_BLOCK:
+      const blockId = uniqid()
+      const newBlock = {
+        blockId: {
+          id: blockId,
+          title: '',
+          linksIds: ['link-7'],
+        }     
+      }
+
+      const newOrder = state.columnOrder
+      newOrder.push(`${blockId}`)
+
+      console.log('newOrder', newOrder)
       return {
-        ...state, ...state.columns, ...action.payload,
+        ...state, columns: {
+          ...state.columns, [blockId]: newBlock.blockId,
+        },
+        columnOrder: newOrder,
       }
     case 'ADD_LINK_BLOCK':
       return {
