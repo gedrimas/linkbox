@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AuthLogModal from './modals/AuthLogModal'
 import MainPage from './MainPage'
 
@@ -9,7 +9,7 @@ export default function App() {
     <>
       <AuthLogModal
         show={modalShow}
-        onHide={() => setModalShow(false)} 
+        onHide={() => setModalShow(false)}
       />
       <MainPage />
     </>

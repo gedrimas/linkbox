@@ -5,24 +5,27 @@ import { state as initialState } from '../../data/initialState'
 const dnd = (state = initialState, action) => {
   switch (action.type) {
     case CON.ADD_BLOCK:
-      const blockId = uniqid()
+/*       const blockId = uniqid()
       const newBlock = {
         blockId: {
           id: blockId,
           title: '',
-          linksIds: ['link-7'],
+          linksIds: [],
         }     
-      }
+      } */
+console.log('action', action)
+      const arr = Object.entries(action.payload)
+      const blockId = arr[0][0]
+      const blockBody = arr [0][1]
+      console.log('ID', blockId)
+      console.log('OBJ', blockBody)
 
-      const newOrder = state.columnOrder
-      newOrder.push(`${blockId}`)
-
-      console.log('newOrder', newOrder)
+      state.columnOrder.push(blockId)
       return {
         ...state, columns: {
-          ...state.columns, [blockId]: newBlock.blockId,
+          ...state.columns, [blockId]: blockBody,
         },
-        columnOrder: newOrder,
+        //columnOrder: newOrder,
       }
     case 'ADD_LINK_BLOCK':
       return {

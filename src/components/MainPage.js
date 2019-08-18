@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
-import { Badge } from 'react-bootstrap'
+
 import Column from './Column'
 import {
   moveColumn,
@@ -13,18 +13,15 @@ import {
 import {
   addBlock,
 } from '../store/actions/contentActions'
+import SetBlockTitleModal from './modals/SetBlockTitleModal';
 
 const Container = styled.div`
   display: flex;
 `
-const StyledBage = styled(Badge)`
-  position: absolute;
-  margin: 5px 0px 0px 5px;
-  z-index: 999;
-`
 
 export default function MainPage() {
   const [startColumnIndex, setStartColumnIndex] = useState()
+  const [isSetBlockTitleModalShow, setBlockTitleModalShow] = useState(false)
 
   const data = useSelector(state => state.dnd)
   const dispatch = useDispatch()
@@ -78,19 +75,24 @@ console.log('STATE', data)
     dispatch(finishMoveLinkBetweenColumns(finish.id, finishLinksIds))
   }
 
+  const addNewBlock = () => {
+/*     const blockId = uniqid()
+    const newBlock = {
+      blockId: {
+        id: blockId,
+        title: '',
+        linksIds: [],
+      }  
+    } */
+    //SetBlockTitleModal()
+  } 
   return (
     <DragDropContext
       onDragStart={onDragStart}
       onDragUpdate={onDragUpdate}
       onDragEnd={onDragEnd}
     >
-      <StyledBage
-        pill
-        variant="light"
-        onClick={() => dispatch(addBlock())}
-      >
-        Create new block
-      </StyledBage>
+      <SetBlockTitleModal />
       <Droppable
         droppableId="all-columns"
         direction="horizontal"

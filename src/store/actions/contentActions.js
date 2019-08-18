@@ -1,7 +1,8 @@
 import CON from '../constants'
 
-export function addBlock() {
+export function addBlock(newBlock) {
   return {
-    type: CON.ADD_BLOCK, 
+    type: CON.ADD_BLOCK,
+    payload: newBlock, 
   }
 }
