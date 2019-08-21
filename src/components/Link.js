@@ -33,7 +33,7 @@ export default function Link (props) {
   const [firstClick, setfirstClick] = useState(false)
 
 
-  function handleClick(e) {
+/*   function handleClick(e) {
     e.preventDefault()
     setDoubleClick(false)
     setRedirect(false)
@@ -57,7 +57,7 @@ export default function Link (props) {
     redirect.dispatchEvent(event)
   }else{
     console.log('yes')
-  }
+  } */
 
   return (
     <Draggable

@@ -10,74 +10,72 @@ import {
 } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { addBlock } from '../../store/actions/contentActions'
+import { addLink } from '../../store/actions/contentActions'
 
-const StyledBadgeDiv = styled.div`
-position: fixed;
-margin: 5px 0px 0px 5px;
-z-index: 999;
+const ColumnControlBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `
-export default function SetBlockTitleModal() {
-  const [show, setShow] = useState(false)
-  const [blockTitle, setBlockTitle] = useState('')
+export default function AddNewLinkModal(props) {
+  const { parentColumnId } = props
 
-  const currentState = useSelector(state => state.dnd)
+  const [show, setShow] = useState(false)
+  const [link, setBlockTitle] = useState('')
+
   const dispatch = useDispatch()
+  const currentState = useSelector(state => state.dnd)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const saveBlock = () => {
-    const blockId = uniqid()
-    const newBlock = {
-      [blockId]: {
-        id: blockId,
-        title: blockTitle,
-        linksIds: [],
+
+  const saveLink = () => {
+    const linkId = uniqid()
+    const newLink = {
+      [linkId]: {
+        id: linkId,
+        link,
       },
     }
-    const objToArr = Object.entries(newBlock)
-    const blockKey = objToArr[0][0]
-    const blockBody = objToArr[0][1]
+    console.log('newlink', newLink)
+    console.log('parentColumnId', parentColumnId)
 
-    dispatch(addBlock({ blockKey, blockBody }))
+    dispatch(addLink({ newLink, parentColumnId, linkId }))
     setBlockTitle('')
     setShow(false)
   }
 
-
   return (
     <>
-      <StyledBadgeDiv>
+      <ColumnControlBlock>
         <Badge
-          pill
-          variant="light"
+          variant="success"
           onClick={handleShow}
-          style={{ marginRight: '5px' }}
         >
-          Create new block
+          Add
         </Badge>
-
         <Badge
-          pill
-          variant="dark"
+          variant="danger"
+          style={{ width: '100%' }}
+          onClick={handleShow}
         >
-          Log out
+          Del
         </Badge>
-      </StyledBadgeDiv>
+      </ColumnControlBlock>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Please, enter title for your new block</Modal.Title>
+          <Modal.Title>Please, add new link</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
-              <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
+              <InputGroup.Text id="basic-addon1">Link</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
               aria-describedby="basic-addon1"
               onChange={e => setBlockTitle(e.target.value)}
-              value={blockTitle}
+              value={link}
             />
           </InputGroup>
         </Modal.Body>
@@ -85,8 +83,8 @@ export default function SetBlockTitleModal() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={saveBlock}>
-            Create block
+          <Button variant="primary" onClick={saveLink}>
+            Save link
           </Button>
         </Modal.Footer>
       </Modal>

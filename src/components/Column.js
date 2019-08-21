@@ -2,8 +2,9 @@
 import React from 'react'
 import { Card, Badge } from 'react-bootstrap'
 import styled from 'styled-components'
-import {Droppable, Draggable} from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Link from './Link'
+import AddNewLinkModal from './modals/AddNewLinkModal'
 
 const StyledCard = styled(Card)`
   margin: 8px;
@@ -76,46 +77,44 @@ export default function Column (props) {
     console.log('yes')
   } */
 
-    return(
-      <Draggable 
-        draggableId={props.column.id} 
-        index={props.index}
-      >
-        {(provided) => (
-          <StyledCard
+  return (
+    <Draggable
+      draggableId={props.column.id}
+      index={props.index}
+    >
+      {provided => (
+        <StyledCard
           {...provided.draggableProps}
           ref={provided.innerRef}
-          >
-            <Card.Body>
-              <StyledCardTitle 
-                {...provided.dragHandleProps}>
-                <h3>{props.column.title}</h3>
-                <ColumnControlBlock>
-                  <Badge variant="success">Add</Badge>
-                  <Badge variant="danger" style={{width:'100%'}}>Del</Badge>
-                </ColumnControlBlock>
-              </StyledCardTitle>
-                <Droppable 
-                  droppableId={props.column.id}
-                  isDropDisabled={props.isDropDisabled}
+        >
+          <Card.Body>
+            <StyledCardTitle
+              {...provided.dragHandleProps}
+            >
+              <h3>{props.column.title}</h3>
+              <AddNewLinkModal parentColumnId={props.column.id} />
+            </StyledCardTitle>
+            <Droppable
+              droppableId={props.column.id}
+              isDropDisabled={props.isDropDisabled}
+            >
+              {(provided, snapshot) => (
+                <TaskList
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  isDraggingOver={snapshot.isDraggingOver}
                 >
-                  {(provided, snapshot) => (
-                    <TaskList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      isDraggingOver={snapshot.isDraggingOver}
-                    >
-                      {props.links.map((link, index) => 
-                        <Link key={link.id} link={link} index={index} />
-                      )}
-                      {provided.placeholder}
-                    </TaskList>
-                    )
-                  }
-                </Droppable>
-              </Card.Body>
-          </StyledCard>
-        )}
-      </Draggable>
-    )
+                  {props.links.map((link, index) => 
+                    <Link key={link.id} link={link} index={index} />
+                  )}
+                  {provided.placeholder}
+                </TaskList>
+              )
+              }
+              </Droppable>
+            </Card.Body>
+        </StyledCard>
+      )}
+    </Draggable>
+  )
 }

@@ -1,36 +1,22 @@
-import uniqid from 'uniqid'
+
 import CON from '../constants'
 import { state as initialState } from '../../data/initialState'
 
 const dnd = (state = initialState, action) => {
   switch (action.type) {
     case CON.ADD_BLOCK:
-/*       const blockId = uniqid()
-      const newBlock = {
-        blockId: {
-          id: blockId,
-          title: '',
-          linksIds: [],
-        }     
-      } */
-console.log('action', action)
-      const arr = Object.entries(action.payload)
-      const blockId = arr[0][0]
-      const blockBody = arr [0][1]
-      console.log('ID', blockId)
-      console.log('OBJ', blockBody)
-
-      state.columnOrder.push(blockId)
+      state.columnOrder.push(action.payload.blockKey)
       return {
         ...state, columns: {
-          ...state.columns, [blockId]: blockBody,
+          ...state.columns, [action.payload.blockKey]: action.payload.blockBody,
         },
-        //columnOrder: newOrder,
       }
-    case 'ADD_LINK_BLOCK':
+    case CON.ADD_LINK:
+      state.columns[action.payload.parentColumnId].linksIds.push(action.payload.linkId)
       return {
-        ...state,
-        linkBlock: action.payload,
+        ...state, links: {
+          ...state.links, [action.payload.linkId]: action.payload.newLink[action.payload.linkId],
+        },
       }
     case 'MOVE_COLUMN':
       return {
