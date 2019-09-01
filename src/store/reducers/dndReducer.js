@@ -4,6 +4,10 @@ import { state as initialState } from '../../data/initialState'
 
 const dnd = (state = initialState, action) => {
   switch (action.type) {
+    case CON.SET_USER_DATA:
+      return {
+        ...action.payload,
+      } 
     case CON.ADD_BLOCK:
       state.columnOrder.push(action.payload.blockKey)
       return {
@@ -18,11 +22,22 @@ const dnd = (state = initialState, action) => {
           ...state.links, [action.payload.linkId]: action.payload.newLink[action.payload.linkId],
         },
       }
-    case 'MOVE_COLUMN':
+    case CON.DEL_LINK:
+      delete state.links[action.payload.id]
+      return {
+        ...state, columns: {
+          ...state.columns,
+          [action.payload.parentBlock]: {
+            ...state.columns[action.payload.parentBlock], linksIds: action.payload.arrOfLinksIds,
+            //...state.columns[action.payload.parentBlock].linksIds, 
+          },
+        },
+      }
+    case CON.MOVE_COLUMN:
       return {
         ...state, columnOrder: action.payload,
       }
-    case 'MOVE_LINK_INSIDE_COLUMN':
+    case CON.MOVE_LINK_INSIDE_COLUMN:
       return {
         ...state, columns: {
           ...state.columns, [action.columnId]: {
@@ -30,7 +45,7 @@ const dnd = (state = initialState, action) => {
           }
         }
       }
-    case 'START_MOVE_LINK_BETWEEN_COLUMNS':
+    case CON.START_MOVE_LINK_BETWEEN_COLUMNS:
       return {
         ...state, columns: {
           ...state.columns, [action.startColumn]: {
@@ -38,19 +53,15 @@ const dnd = (state = initialState, action) => {
           } 
         }
       }
-    case 'FINISH_MOVE_LINK_BETWEEN_COLUMNS':
+    case CON.FINISH_MOVE_LINK_BETWEEN_COLUMNS:
       return {
         ...state, columns: {
-          ...state.columns, [action.finishColumn]: {
+          ...state.columns,
+          [action.finishColumn]: {
             ...state.columns[action.finishColumn], linksIds: action.finishColumnLinksOrder
-          }
-        }
+          },
+        },
       }
-    case 'SET_USER_DATA':
-      console.log('7777777777777777', action.payload)
-      return {
-        ...state, ...action.payload,
-      }        
     default:
       return state
   }

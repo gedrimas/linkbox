@@ -19,12 +19,14 @@ export default function AuthLogModal(props) {
   const [logName, setLogName] = useState('')
   const [logPass, setLogPass] = useState('')
   const [textButton, setTextButton] = useState('Registration')
+  const forceUpdate = useState()[1];
+
 
   const dispatch = useDispatch()
 
   const choseAction = (name, pass) => {
     textButton === 'Registration' ? registration(name, pass)
-      : authorization(name, pass)
+      : authorization(name, pass, forceUpdate)
   }
 
   const trimInputs = (select) => {

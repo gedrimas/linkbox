@@ -12,10 +12,11 @@ const registration = (state = initialState, action) => {
         token: 'pending',
       }
     case (CON.REGISTRATION_SUCCESS):
-      console.log('RES - - - -', action.payload)
       return {
         ...state,
-        token: `JWT ${action.payload}`,
+        //token: `JWT ${action.payload}`,
+        token: `${action.payload}`,
+        
       }
       
     default:

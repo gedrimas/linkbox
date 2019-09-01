@@ -1,4 +1,5 @@
 import CON from '../constants'
+import { saveUserChanges } from './authRegActions'
 
 export function addBlock(newBlock) {
   return {
@@ -13,3 +14,26 @@ export function addLink(newLink) {
     payload: newLink,
   }
 }
+
+export function deletLink(linkParams) {
+  return {
+    type: CON.DEL_LINK,
+    payload: linkParams,
+  }
+}
+
+export function dellLink(linkParams) {
+  return (dispatch, getState) => {
+    dispatch(deletLink(linkParams))
+    const {
+      dnd,
+      registration: {
+        token,
+      },
+    } = getState()
+    const newUserState = {}
+    newUserState.state = dnd
+    if (token) saveUserChanges(token, newUserState)
+  }
+}
+

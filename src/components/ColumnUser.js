@@ -49,7 +49,7 @@ const DellColumnButton = styled.button`
   background: none;
 `
 
-export default function Column(props) {
+export default function ColumnUser(props) {
   const {
     links,
     index,
@@ -61,6 +61,8 @@ export default function Column(props) {
       title: title
     },
   } = props
+
+  console.log('links', links)
 
   return (
     <Draggable

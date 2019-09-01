@@ -3,8 +3,8 @@ import qs from 'qs'
 import CON from '../constants'
 import { state } from '../../data/initialState'
 
-const stateForSend = {}
-stateForSend.state = state
+const initialStateSave = {}
+initialStateSave.state = state
 
 function registrationStart() {
   return {
@@ -33,6 +33,28 @@ export function registrationFailure(err) {
   }
 }
 
+export const saveInintalUserState = token => fetch('http://localhost:3001/mylinks', {
+  method: 'POST',
+  headers: {
+    Authorization: `JWT ${token}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(initialStateSave),
+}).then(res => console.log(res))
+
+export const saveUserChanges = (token, newUserState) => {
+  console.log('NEWstate', state)
+    fetch('http://localhost:3001/mylinks', {
+      method: 'POST',
+      headers: {
+        Authorization: `JWT ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUserState),
+    }).then(res => console.log(res))
+  
+}
+
 const getUserToken = paramsToGetToken => fetch('http://localhost:3001/sign_in', {
   method: 'POST',
   headers: {
@@ -51,7 +73,6 @@ const getUserData = token => fetch('http://localhost:3001/mylinks', {
 export function registration({ regName, regPass }) {
   return (dispatch) => {
     dispatch(registrationStart())
-
     const requestBody = {
       name: regName,
       password: regPass,
@@ -65,19 +86,8 @@ export function registration({ regName, regPass }) {
       body: qs.stringify(requestBody),
     }).then(res => res.json())
 
-
-    const setInitialState = token => fetch('http://localhost:3001/mylinks', {
-      method: 'POST',
-      headers: {
-        Authorization: `JWT ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(stateForSend),
-    }).then(res => console.log(res))
-
     const registerAndGetToken = async () => {
       const { name } = await userRegistration()
-      console.log('JSON.stringify(state)', JSON.stringify(stateForSend))
       const paramsToGetToken = {
         name,
         password: regPass,
@@ -85,7 +95,7 @@ export function registration({ regName, regPass }) {
       const { token } = await getUserToken(paramsToGetToken)
       dispatch(registrationSuccess(token))
       setTimeout(() => {
-        setInitialState(token)
+        saveInintalUserState(token)
       }, 2000);
     }
     registerAndGetToken()
@@ -101,8 +111,9 @@ export function authorization({ logName, logPass }) {
     const authAndGetUserData = async () => {
       const { token } = await getUserToken(paramsToGetToken)
       const { state: s } = await getUserData(token)
+      dispatch(registrationSuccess(token))
+      //setUserState(s)
       dispatch(setUserState(s))
-      console.log('res = ', s)
     }
     authAndGetUserData()
   }

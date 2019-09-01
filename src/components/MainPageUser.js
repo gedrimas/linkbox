@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
-import Column from './Column'
+import ColumnUser from './ColumnUser'
 import {
   moveColumn,
   moveLinkInsideColumn,
@@ -17,14 +17,17 @@ const Container = styled.div`
   display: flex;
 `
 
-export default function MainPage() {
+export default function MainPageUser() {
   const [startColumnIndex, setStartColumnIndex] = useState()
   const [isSetBlockTitleModalShow, setBlockTitleModalShow] = useState(false)
 
-  const data = useSelector(state => state.dnd)
-  console.log('DATA-INITIAL', data)
-  const state = useSelector(st => st)
+  const data = useSelector(state => state.userStateReducer)
+  //const data = useSelector(state => state.dnd)
 
+  console.log('DATA-USER', data)
+  
+  const state = useSelector(st => st)
+  
   const dispatch = useDispatch()
   const onDragStart = (start) => {
     const startColumn = data.columnOrder.indexOf(start.source.droppableId)
@@ -94,10 +97,11 @@ export default function MainPage() {
           >
             {data.columnOrder.map((columnId, index) => {
               const column = data.columns[columnId]
+
               const links = column.linksIds.map(linkId => data.links[linkId])
 
               return (
-                <Column
+                <ColumnUser
                   key={column.id}
                   column={column}
                   links={links}

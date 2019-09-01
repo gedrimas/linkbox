@@ -22,14 +22,31 @@ export default function AddNewLinkModal(props) {
 
   const [show, setShow] = useState(false)
   const [link, setBlockTitle] = useState('')
+  const [wornMessage, setWornMessage] = useState('')
 
+  const allLinks = useSelector(state => state.dnd.links)
   const dispatch = useDispatch()
-  const currentState = useSelector(state => state.dnd)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+  const delLink = () => {
+
+    if (show) {
+      setShow(false)
+    }
+  }
+
   const saveLink = () => {
+
+    for (let key in allLinks) {
+      const { link: oneOfLinks } = allLinks[key]
+      if(oneOfLinks === link) {
+        setWornMessage('This link is already exist in your linkbox')
+        return
+      }
+    }
+
     const linkId = uniqid()
     const newLink = {
       [linkId]: {
@@ -37,12 +54,16 @@ export default function AddNewLinkModal(props) {
         link,
       },
     }
-    console.log('newlink', newLink)
-    console.log('parentColumnId', parentColumnId)
 
-    dispatch(addLink({ newLink, parentColumnId, linkId }))
-    setBlockTitle('')
-    setShow(false)
+    const isValidLink = () => {
+      if (link) {
+        dispatch(addLink({ newLink, parentColumnId, linkId }))
+        setBlockTitle('')
+        setShow(false)
+      }
+    }
+
+    isValidLink()
   }
 
   return (
@@ -80,6 +101,7 @@ export default function AddNewLinkModal(props) {
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
+          <p>{wornMessage}</p>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
