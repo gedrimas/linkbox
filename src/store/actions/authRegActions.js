@@ -43,16 +43,14 @@ export const saveInintalUserState = token => fetch('http://localhost:3001/mylink
 }).then(res => console.log(res))
 
 export const saveUserChanges = (token, newUserState) => {
-  console.log('NEWstate', state)
-    fetch('http://localhost:3001/mylinks', {
-      method: 'POST',
-      headers: {
-        Authorization: `JWT ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newUserState),
-    }).then(res => console.log(res))
-  
+  fetch('http://localhost:3001/mylinks', {
+    method: 'POST',
+    headers: {
+      Authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newUserState),
+  }).then(res => console.log(res))
 }
 
 const getUserToken = paramsToGetToken => fetch('http://localhost:3001/sign_in', {

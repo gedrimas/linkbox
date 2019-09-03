@@ -9,6 +9,7 @@ import {
   FormControl,
 } from 'react-bootstrap'
 import styled from 'styled-components'
+import isUrl from 'is-valid-http-url'
 
 import { addLink } from '../../store/actions/contentActions'
 
@@ -17,11 +18,16 @@ const ColumnControlBlock = styled.div`
   flex-direction: column;
   align-items: flex-end;
 `
+const StyledFooter = styled(Modal.Footer)`
+  dispaly: flex;
+  justify-content: space-between;
+`
+
 export default function AddNewLinkModal(props) {
   const { parentColumnId } = props
 
   const [show, setShow] = useState(false)
-  const [link, setBlockTitle] = useState('')
+  const [link, setLink] = useState('')
   const [wornMessage, setWornMessage] = useState('')
 
   const allLinks = useSelector(state => state.dnd.links)
@@ -30,18 +36,10 @@ export default function AddNewLinkModal(props) {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  const delLink = () => {
-
-    if (show) {
-      setShow(false)
-    }
-  }
-
   const saveLink = () => {
-
     for (let key in allLinks) {
       const { link: oneOfLinks } = allLinks[key]
-      if(oneOfLinks === link) {
+      if (oneOfLinks === link) {
         setWornMessage('This link is already exist in your linkbox')
         return
       }
@@ -55,15 +53,16 @@ export default function AddNewLinkModal(props) {
       },
     }
 
-    const isValidLink = () => {
-      if (link) {
-        dispatch(addLink({ newLink, parentColumnId, linkId }))
-        setBlockTitle('')
-        setShow(false)
-      }
-    }
 
-    isValidLink()
+    const isValidUrl = isUrl(link)
+
+    if (isValidUrl) {
+      dispatch(addLink({ newLink, parentColumnId, linkId }))
+      setLink('')
+      setShow(false)
+    } else {
+      setWornMessage((<span>This link is not valid. <br /> Please, enter correct URL.</span>))
+    }
   }
 
   return (
@@ -95,20 +94,28 @@ export default function AddNewLinkModal(props) {
             </InputGroup.Prepend>
             <FormControl
               aria-describedby="basic-addon1"
-              onChange={e => setBlockTitle(e.target.value)}
+              onChange={e => setLink(e.target.value)}
               value={link}
             />
           </InputGroup>
         </Modal.Body>
-        <Modal.Footer>
-          <p>{wornMessage}</p>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={saveLink}>
-            Save link
-          </Button>
-        </Modal.Footer>
+        <StyledFooter>
+          <div style={{ color: 'red' }}>
+            {wornMessage}
+          </div>
+          <div>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{ marginRight: '5px' }}
+            >
+              Close
+            </Button>
+            <Button variant="primary" onClick={saveLink}>
+              Save link
+            </Button>
+          </div>
+        </StyledFooter>
       </Modal>
     </>
   );

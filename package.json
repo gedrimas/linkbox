@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "is-valid-http-url": "^1.0.2",
     "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.4",
