@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from 'react-cookie'
 import {
   Modal,
   Button,
@@ -19,27 +20,38 @@ export default function AuthLogModal(props) {
   const [logName, setLogName] = useState('')
   const [logPass, setLogPass] = useState('')
   const [textButton, setTextButton] = useState('Registration')
-  const forceUpdate = useState()[1];
-
+  const [cookies, setCookies] = useCookies(['name', 'pass'])
 
   const dispatch = useDispatch()
+  const token = useSelector(state => state.registration.token)
 
-  const choseAction = (name, pass) => {
-    textButton === 'Registration' ? registration(name, pass)
-      : authorization(name, pass, forceUpdate)
+  if (cookies.name && cookies.pass) {
+    dispatch(authorization({ logName, logPass }))
   }
+
+  if (token) {
+    setCookies('name', logName || regName)
+    setCookies('pass', logPass || regPass)
+  }
+
+  /* const choseAction = (name, pass) => {
+    textButton === 'Registration' ? registration(name, pass)
+      : authorization(name, pass)
+      setCookies('name', name)
+      setCookies('pass', pass)
+  } */
 
   const trimInputs = (select) => {
     if (select === 'first') {
       setTextButton('Registration')
       setLogName('')
       setLogPass('')
-      choseAction(registration, regName, regPass)
+      //choseAction(registration, regName, regPass)
     } else if (select === 'second') {
       setTextButton('Authorization')
       setRegName('')
       setRegPass('')
-      choseAction(authorization, logName, logPass)
+      //choseAction(authorization, logName, logPass)
     }
   }
 
