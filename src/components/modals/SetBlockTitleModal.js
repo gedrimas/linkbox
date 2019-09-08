@@ -56,13 +56,6 @@ export default function SetBlockTitleModal() {
         >
           Create new block
         </Badge>
-
-        <Badge
-          pill
-          variant="dark"
-        >
-          Log out
-        </Badge>
       </StyledBadgeDiv>
 
       <Modal show={show} onHide={handleClose}>

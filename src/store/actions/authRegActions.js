@@ -116,3 +116,21 @@ export function authorization({ logName, logPass }) {
     authAndGetUserData()
   }
 }
+
+export function signOut() {
+  return {
+    type: CON.SIGN_OUT,
+  } 
+}
+
+export function showSignModal() {
+  return {
+    type: CON.SIGN_MODAL_SHOW,
+  }
+}
+
+export function hideSignModal() {
+  return {
+    type: CON.SIGN_MODAL_HIDE,
+  }
+}

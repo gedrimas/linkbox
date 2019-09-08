@@ -62,6 +62,10 @@ const dnd = (state = initialState, action) => {
           },
         },
       }
+    case (CON.SIGN_OUT):
+      return {
+        ...initialState
+      }
     default:
       return state
   }

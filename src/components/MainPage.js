@@ -22,8 +22,6 @@ export default function MainPage() {
   const [isSetBlockTitleModalShow, setBlockTitleModalShow] = useState(false)
 
   const data = useSelector(state => state.dnd)
-  console.log('DATA-INITIAL', data)
-  const state = useSelector(st => st)
 
   const dispatch = useDispatch()
   const onDragStart = (start) => {
