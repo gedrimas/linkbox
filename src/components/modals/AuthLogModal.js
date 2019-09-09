@@ -35,7 +35,6 @@ export default function AuthLogModal(props) {
   const dispatch = useDispatch()
   const token = useSelector(state => state.registration.token)
   const state = useSelector(st => st)
-console.log('STATE', state)
 
   const signInOrOutAndDellCookies = () => {
     if (logButtonText === 'Sign in'){
@@ -47,7 +46,6 @@ console.log('STATE', state)
     }
   }
 
- 
   useEffect(() => {
     if (token) {
       setLogButtonText('Sign out')
@@ -55,7 +53,6 @@ console.log('STATE', state)
       setLogButtonText('Sign in')
     }
   })
-
 
   if (token && isFetchData && !cookies.linkBoxPass && !cookies.linkBoxName) {
     setCookies('linkBoxName', logName || regName)
@@ -72,8 +69,26 @@ console.log('STATE', state)
       setTextButton('Authorization')
       setRegName('')
       setRegPass('')
+      setLogName('')
+      setLogPass('')
     }
   }
+
+  const handleRegistration = () => {
+    dispatch(registration({ regName, regPass }))
+    //setRegName('')
+    //setRegPass('')
+    props.setModalShow(false)
+  }
+
+  const handleAuthorization = () => {
+    dispatch(authorization({ logName, logPass }))
+    //setLogName('')
+    //setLogPass('')
+    props.setModalShow(false)
+    console.log('2222222222222222222')
+  }
+
 
   return (
     <>
@@ -178,8 +193,8 @@ console.log('STATE', state)
         <Modal.Footer>
           <Button
             onClick={textButton === 'Registration'
-              ? () => dispatch(registration({ regName, regPass }))
-              : () => dispatch(authorization({ logName, logPass }))}
+              ? handleRegistration
+              : handleAuthorization}
           >
             {textButton}
           </Button>
