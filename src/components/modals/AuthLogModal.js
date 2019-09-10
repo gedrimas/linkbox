@@ -21,6 +21,14 @@ const StyledBadgeDiv = styled.div`
   margin: 5px 0px 0px 125px;
   z-index: 999;
 `
+const StyledBage = styled(Badge)`
+  margin-bottom: 5px;
+  :hover {
+    cursor: pointer;
+    outline: 1px solid #03F6FA;
+    outline-offset: 2px;
+  }
+`
 
 export default function AuthLogModal(props) {
   const [regName, setRegName] = useState('')
@@ -93,13 +101,13 @@ export default function AuthLogModal(props) {
   return (
     <>
       <StyledBadgeDiv>
-        <Badge
+        <StyledBage
           pill
           variant="dark"
           onClick={signInOrOutAndDellCookies}
         >
           {logButtonText}
-        </Badge>
+        </StyledBage>
       </StyledBadgeDiv>
       <Modal
         {...props}

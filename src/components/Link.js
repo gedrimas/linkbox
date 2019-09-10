@@ -8,6 +8,14 @@ import dnd from '../store/reducers/dndReducer';
 import { dellLink } from '../store/actions/contentActions'
 import { saveUserChanges } from '../store/actions/authRegActions'
 
+const StyledBage = styled(Badge)`
+  margin-bottom: 5px;
+  :hover {
+    cursor: pointer;
+    outline: 1px solid #03F6FA;
+    outline-offset: 3px;
+  }
+`
 
 export default function Link(props) {
 
@@ -56,12 +64,12 @@ export default function Link(props) {
         {...provided.dragHandleProps}
         >
             <Card.Body>
-              <Badge 
+              <StyledBage 
                 variant="danger"
                 onClick={deleteLink}
               >
                 Del
-              </Badge>
+              </StyledBage>
               <ReactTinyLink
                 cardSize="large"
                 showGraphic={true}

@@ -17,6 +17,14 @@ position: fixed;
 margin: 5px 0px 0px 5px;
 z-index: 999;
 `
+const StyledBage = styled(Badge)`
+  margin-bottom: 5px;
+  :hover {
+    cursor: pointer;
+    outline: 1px solid #03F6FA;
+    outline-offset: 2px;
+  }
+`
 export default function SetBlockTitleModal() {
   const [show, setShow] = useState(false)
   const [blockTitle, setBlockTitle] = useState('')
@@ -48,14 +56,14 @@ export default function SetBlockTitleModal() {
   return (
     <>
       <StyledBadgeDiv>
-        <Badge
+        <StyledBage
           pill
           variant="light"
           onClick={handleShow}
           style={{ marginRight: '5px' }}
         >
           Create new block
-        </Badge>
+        </StyledBage>
       </StyledBadgeDiv>
 
       <Modal show={show} onHide={handleClose}>

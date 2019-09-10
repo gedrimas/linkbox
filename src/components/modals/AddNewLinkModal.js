@@ -22,6 +22,14 @@ const StyledFooter = styled(Modal.Footer)`
   dispaly: flex;
   justify-content: space-between;
 `
+const StyledBage = styled(Badge)`
+  margin-bottom: 5px;
+  :hover {
+    cursor: pointer;
+    outline: 1px solid #03F6FA;
+    outline-offset: 3px;
+  }
+`
 
 export default function AddNewLinkModal(props) {
   const { parentColumnId } = props
@@ -68,19 +76,19 @@ export default function AddNewLinkModal(props) {
   return (
     <>
       <ColumnControlBlock>
-        <Badge
+        <StyledBage
           variant="success"
           onClick={handleShow}
         >
           Add
-        </Badge>
-        <Badge
+        </StyledBage>
+        <StyledBage
           variant="danger"
           style={{ width: '100%' }}
           onClick={handleShow}
         >
           Del
-        </Badge>
+        </StyledBage>
       </ColumnControlBlock>
 
       <Modal show={show} onHide={handleClose}>
