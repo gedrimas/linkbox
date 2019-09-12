@@ -14,6 +14,8 @@ const StyledBage = styled(Badge)`
     cursor: pointer;
     outline: 1px solid #03F6FA;
     outline-offset: 3px;
+    box-shadow: 0 0 0 3px #010DFD;
+    border-radius: 0;
   }
 `
 

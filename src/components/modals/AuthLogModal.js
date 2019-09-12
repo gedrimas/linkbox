@@ -14,7 +14,7 @@ import {
   Badge,
 } from 'react-bootstrap'
 
-import { registration, authorization, signOut, showSignModal } from '../../store/actions/authRegActions'
+import { registration, authorization, signOut, showSignModal, hideSignModal } from '../../store/actions/authRegActions'
 
 const StyledBadgeDiv = styled.div`
   position: fixed;
@@ -27,6 +27,8 @@ const StyledBage = styled(Badge)`
     cursor: pointer;
     outline: 1px solid #03F6FA;
     outline-offset: 2px;
+    box-shadow: 0 0 0 3px #010DFD;
+    border-radius: 0;
   }
 `
 
@@ -35,8 +37,8 @@ export default function AuthLogModal(props) {
   const [regPass, setRegPass] = useState('')
   const [logName, setLogName] = useState('')
   const [logPass, setLogPass] = useState('')
+  const [action, setAction] = useState('first')
   const [logButtonText, setLogButtonText] = useState('Sign in')
-  const [textButton, setTextButton] = useState('Registration')
   const [cookies, setCookies] = useCookies(['linkBoxName', 'linkBoxPass'])
   const [isFetchData, setFetchData] = useState(true)
 
@@ -68,7 +70,9 @@ export default function AuthLogModal(props) {
     setFetchData(false)
   }
 
-  const trimInputs = (select) => {
+/*   const trimInputs = (change) => {
+    console.log('select', select)
+    setAction(change)
     if (select === 'first') {
       setTextButton('Registration')
       setLogName('')
@@ -80,7 +84,7 @@ export default function AuthLogModal(props) {
       setLogName('')
       setLogPass('')
     }
-  }
+  } */
 
   const handleRegistration = () => {
     dispatch(registration({ regName, regPass }))
@@ -97,6 +101,22 @@ export default function AuthLogModal(props) {
     console.log('2222222222222222222')
   }
 
+  const handleRegOrAuthButton = () => {
+    if(action === 'first'){
+      dispatch(registration({ regName, regPass }))
+      dispatch(hideSignModal())
+      props.setModalShow(false)
+    }else if(action === 'second'){
+      dispatch(authorization({ logName, logPass }))
+      dispatch(hideSignModal())
+      setAction('first')
+      props.setModalShow(false)
+    }
+    setLogName('')
+    setLogPass('')
+    setRegName('')
+    setRegPass('')
+  }
 
   return (
     <>
@@ -128,7 +148,7 @@ export default function AuthLogModal(props) {
                   <Nav.Item>
                     <Nav.Link
                       eventKey="first"
-                      onSelect={(selected) => { trimInputs(selected) }}
+                      onSelect={(selected) => { setAction(selected) }}
                     >
                         Registr your new LinkBox
                     </Nav.Link>
@@ -136,7 +156,7 @@ export default function AuthLogModal(props) {
                   <Nav.Item>
                     <Nav.Link
                       eventKey="second"
-                      onSelect={(selected) => { trimInputs(selected) }}
+                      onSelect={(selected) => { setAction(selected) }}
                     >
                         Enter to your LinkBox
                     </Nav.Link>
@@ -200,11 +220,9 @@ export default function AuthLogModal(props) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            onClick={textButton === 'Registration'
-              ? handleRegistration
-              : handleAuthorization}
+            onClick={handleRegOrAuthButton}
           >
-            {textButton}
+            {action === 'first' ? 'Registration' : 'Authorizaition'}
           </Button>
         </Modal.Footer>
       </Modal>

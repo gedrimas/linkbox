@@ -23,6 +23,8 @@ const StyledBage = styled(Badge)`
     cursor: pointer;
     outline: 1px solid #03F6FA;
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px #010DFD;
+    border-radius: 0;
   }
 `
 export default function SetBlockTitleModal() {
