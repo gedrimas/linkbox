@@ -4,7 +4,7 @@ import { Card, Badge } from 'react-bootstrap'
 import styled from 'styled-components'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import Link from './Link'
-import AddNewLinkModal from './modals/AddNewLinkModal'
+import AddNewLinAndDelBlockkModals from './modals/AddNewLinAndDelBlockkModals'
 
 const StyledCard = styled(Card)`
   margin: 8px;
@@ -31,22 +31,6 @@ const TaskList = styled.div`
   background-color: ${props => props.isDraggingOver ? 'skyblue' : 'inherit'}
   flex-grow: 1;
   min-height: 100px;
-`
-const ColumnControlBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`
-const AddLinkButton = styled.button`
-  color: green;
-  border: none;
-  background: none;
-  margin-right: 8px;
-`
-const DellColumnButton = styled.button`
-  color: red;
-  border: none;
-  background: none;
 `
 
 export default function Column(props) {
@@ -77,7 +61,7 @@ export default function Column(props) {
               {...provided.dragHandleProps}
             >
               <h3>{title}</h3>
-              <AddNewLinkModal parentColumnId={id} />
+              <AddNewLinAndDelBlockkModals parentColumnId={id} />
             </StyledCardTitle>
             <Droppable
               droppableId={id}

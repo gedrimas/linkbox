@@ -11,7 +11,7 @@ import {
 import styled from 'styled-components'
 import isUrl from 'is-valid-http-url'
 
-import { addLink } from '../../store/actions/contentActions'
+import { addLink, dellBlock } from '../../store/actions/contentActions'
 
 const ColumnControlBlock = styled.div`
   display: flex;
@@ -33,18 +33,24 @@ const StyledBage = styled(Badge)`
   }
 `
 
-export default function AddNewLinkModal(props) {
+export default function AddNewLinAndDelBlockkModals(props) {
   const { parentColumnId } = props
 
-  const [show, setShow] = useState(false)
+  const [showAddLinkModal, setShowAddLinkModal] = useState(false)
+  const [showWornDelModal, setShowWornDelModal] = useState(false)
   const [link, setLink] = useState('')
   const [wornMessage, setWornMessage] = useState('')
 
   const allLinks = useSelector(state => state.dnd.links)
+  const columnOrder = useSelector(state => state.dnd.columnOrder)
   const dispatch = useDispatch()
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const delBlock = () => {
+    const index = columnOrder.findIndex(item => item === parentColumnId)
+    columnOrder.splice(index, 1)
+    dispatch(dellBlock({parentColumnId, columnOrder}))
+    setShowWornDelModal(false)
+  }
 
   const saveLink = () => {
     for (let key in allLinks) {
@@ -69,7 +75,7 @@ export default function AddNewLinkModal(props) {
     if (isValidUrl) {
       dispatch(addLink({ newLink, parentColumnId, linkId }))
       setLink('')
-      setShow(false)
+      setShowAddLinkModal(false)
     } else {
       setWornMessage((<span>This link is not valid. <br /> Please, enter correct URL.</span>))
     }
@@ -80,20 +86,20 @@ export default function AddNewLinkModal(props) {
       <ColumnControlBlock>
         <StyledBage
           variant="success"
-          onClick={handleShow}
+          onClick={() => setShowAddLinkModal(true)}
         >
           Add
         </StyledBage>
         <StyledBage
           variant="danger"
           style={{ width: '100%' }}
-          onClick={handleShow}
+          onClick={() => setShowWornDelModal(true)}
         >
           Del
         </StyledBage>
       </ColumnControlBlock>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showAddLinkModal} onHide={() => setShowAddLinkModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Please, add new link</Modal.Title>
         </Modal.Header>
@@ -116,7 +122,7 @@ export default function AddNewLinkModal(props) {
           <div>
             <Button
               variant="secondary"
-              onClick={handleClose}
+              onClick={() => setShowAddLinkModal(false)}
               style={{ marginRight: '5px' }}
             >
               Close
@@ -126,6 +132,20 @@ export default function AddNewLinkModal(props) {
             </Button>
           </div>
         </StyledFooter>
+      </Modal>
+      <Modal show={showWornDelModal} onHide={() => setShowWornDelModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowWornDelModal(false)}>
+            No
+          </Button>
+          <Button variant="primary" onClick={delBlock}>
+            Yes
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );

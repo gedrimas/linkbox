@@ -44,3 +44,18 @@ export function dellLink(linkParams) {
   }
 }
 
+export function deletBlockAction(blockParams) {
+  return {
+    type: CON.DEL_BLOCK,
+    payload: blockParams,
+  }
+}
+
+export function dellBlock(blockParams) {
+  console.log('blockParams', blockParams)
+  return (dispatch, getState) => {
+    dispatch(deletBlockAction(blockParams))
+    getActualStateAndSaveToDb(getState, saveUserChanges)
+  }
+}
+

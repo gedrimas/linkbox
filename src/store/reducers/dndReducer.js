@@ -29,10 +29,15 @@ const dnd = (state = initialState, action) => {
           ...state.columns,
           [action.payload.parentBlock]: {
             ...state.columns[action.payload.parentBlock], linksIds: action.payload.arrOfLinksIds,
-            //...state.columns[action.payload.parentBlock].linksIds, 
           },
         },
       }
+    case CON.DEL_BLOCK:
+      console.log('action.payload', action.payload)
+      delete state.columns[action.payload]
+      return {
+        ...state,
+      }  
     case CON.MOVE_COLUMN:
       return {
         ...state, columnOrder: action.payload,
