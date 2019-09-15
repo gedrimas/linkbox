@@ -82,19 +82,29 @@ export function registration({ regName, regPass }) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: qs.stringify(requestBody),
-    }).then(res => res.json())
-
+    }).then(res => {
+        if (!res.ok) throw new Error('Registration error')
+        res.json()
+      }) 
+      //.catch(error => console.error('Ошибка:', error))
+      
     const registerAndGetToken = async () => {
-      const { name } = await userRegistration()
-      const paramsToGetToken = {
-        name,
-        password: regPass,
+      try {
+        const { name } = await userRegistration()
+        const paramsToGetToken = {
+          name,
+          password: regPass,
+        }
+        const { token } = await getUserToken(paramsToGetToken)
+        dispatch(registrationSuccess(token))
+        setTimeout(() => {
+          saveInintalUserState(token)
+        }, 2000);
       }
-      const { token } = await getUserToken(paramsToGetToken)
-      dispatch(registrationSuccess(token))
-      setTimeout(() => {
-        saveInintalUserState(token)
-      }, 2000);
+      catch(error) {
+        console.log('Ошибка:', error)
+      }
+      
     }
     registerAndGetToken()
   }

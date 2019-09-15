@@ -31,6 +31,10 @@ const StyledBage = styled(Badge)`
     border-radius: 0;
   }
 `
+const StyledFooter = styled(Modal.Footer)`
+  dispaly: flex;
+  justify-content: space-between;
+`
 
 export default function AuthLogModal(props) {
   const [regName, setRegName] = useState('')
@@ -39,8 +43,10 @@ export default function AuthLogModal(props) {
   const [logPass, setLogPass] = useState('')
   const [action, setAction] = useState('first')
   const [logButtonText, setLogButtonText] = useState('Sign in')
-  const [cookies, setCookies] = useCookies(['linkBoxName', 'linkBoxPass'])
   const [isFetchData, setFetchData] = useState(true)
+  const [wornMessage, setWornMessage] = useState('')
+  
+  const [cookies, setCookies] = useCookies(['linkBoxName', 'linkBoxPass'])
 
   const dispatch = useDispatch()
   const token = useSelector(state => state.registration.token)
@@ -70,45 +76,26 @@ export default function AuthLogModal(props) {
     setFetchData(false)
   }
 
-/*   const trimInputs = (change) => {
-    console.log('select', select)
-    setAction(change)
-    if (select === 'first') {
-      setTextButton('Registration')
-      setLogName('')
-      setLogPass('')
-    } else if (select === 'second') {
-      setTextButton('Authorization')
-      setRegName('')
-      setRegPass('')
-      setLogName('')
-      setLogPass('')
-    }
-  } */
-
-  const handleRegistration = () => {
-    dispatch(registration({ regName, regPass }))
-    //setRegName('')
-    //setRegPass('')
-    props.setModalShow(false)
-  }
-
-  const handleAuthorization = () => {
-    dispatch(authorization({ logName, logPass }))
-    //setLogName('')
-    //setLogPass('')
-    props.setModalShow(false)
-    console.log('2222222222222222222')
-  }
-
   const handleRegOrAuthButton = () => {
     if(action === 'first'){
+      if(!regName || !regPass) {
+        setWornMessage('Fields should not be empty')
+        return
+      }
       dispatch(registration({ regName, regPass }))
       dispatch(hideSignModal())
+      setCookies('linkBoxName', regName)
+      setCookies('linkBoxPass', regPass)
       props.setModalShow(false)
     }else if(action === 'second'){
+      if(!logName || !logPass) {
+        setWornMessage('Fields should not be empty')
+        return
+      }
       dispatch(authorization({ logName, logPass }))
       dispatch(hideSignModal())
+      setCookies('linkBoxName', logName)
+      setCookies('linkBoxPass', logPass)
       setAction('first')
       props.setModalShow(false)
     }
@@ -137,7 +124,7 @@ export default function AuthLogModal(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
+            Welcome to LinkBox!
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -148,7 +135,10 @@ export default function AuthLogModal(props) {
                   <Nav.Item>
                     <Nav.Link
                       eventKey="first"
-                      onSelect={(selected) => { setAction(selected) }}
+                      onSelect={(selected) => { 
+                        setAction(selected) 
+                        setWornMessage('')
+                      }}
                     >
                         Registr your new LinkBox
                     </Nav.Link>
@@ -156,7 +146,10 @@ export default function AuthLogModal(props) {
                   <Nav.Item>
                     <Nav.Link
                       eventKey="second"
-                      onSelect={(selected) => { setAction(selected) }}
+                      onSelect={(selected) => { 
+                        setAction(selected) 
+                        setWornMessage('')                        
+                      }}
                     >
                         Enter to your LinkBox
                     </Nav.Link>
@@ -218,13 +211,16 @@ export default function AuthLogModal(props) {
             </Row>
           </Tab.Container>
         </Modal.Body>
-        <Modal.Footer>
+        <StyledFooter>
+          <div style={{ color: 'red' }}>
+            {wornMessage}
+          </div>
           <Button
             onClick={handleRegOrAuthButton}
           >
             {action === 'first' ? 'Registration' : 'Authorizaition'}
           </Button>
-        </Modal.Footer>
+        </StyledFooter>
       </Modal>
     </>
   )

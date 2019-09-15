@@ -42,13 +42,10 @@ export default function AddNewLinAndDelBlockkModals(props) {
   const [wornMessage, setWornMessage] = useState('')
 
   const allLinks = useSelector(state => state.dnd.links)
-  const columnOrder = useSelector(state => state.dnd.columnOrder)
   const dispatch = useDispatch()
 
   const delBlock = () => {
-    const index = columnOrder.findIndex(item => item === parentColumnId)
-    columnOrder.splice(index, 1)
-    dispatch(dellBlock({parentColumnId, columnOrder}))
+    dispatch(dellBlock(parentColumnId))
     setShowWornDelModal(false)
   }
 
@@ -101,7 +98,7 @@ export default function AddNewLinAndDelBlockkModals(props) {
 
       <Modal show={showAddLinkModal} onHide={() => setShowAddLinkModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Please, add new link</Modal.Title>
+          <Modal.Title>Adding new link</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <InputGroup className="mb-3">
@@ -135,15 +132,15 @@ export default function AddNewLinAndDelBlockkModals(props) {
       </Modal>
       <Modal show={showWornDelModal} onHide={() => setShowWornDelModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Deleting column</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>Do you really want to delete entire column <br /> with all link contained in it?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowWornDelModal(false)}>
             No
           </Button>
           <Button variant="primary" onClick={delBlock}>
-            Yes
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>

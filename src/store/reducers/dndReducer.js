@@ -33,8 +33,12 @@ const dnd = (state = initialState, action) => {
         },
       }
     case CON.DEL_BLOCK:
-      console.log('action.payload', action.payload)
+      const linksToBeDeleted = state.columns[action.payload].linksIds
+      for (let i = 0; i < linksToBeDeleted.length; i++) {
+        delete state.links[linksToBeDeleted[i]]
+      }
       delete state.columns[action.payload]
+      state.columnOrder.splice(state.columnOrder.findIndex(item => item === action.payload), 1)
       return {
         ...state,
       }  
