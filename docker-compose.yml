@@ -1,0 +1,28 @@
+version: '2.3'
+
+services:
+  front:
+    image: registry.gitlab.com/mypochtaweb/linkbox:latest
+    environment:
+      VIRTUAL_HOST: mylinkbox.ru
+    networks:
+      - mylinkbox
+      - proxy
+
+  back:
+    image: registry.gitlab.com/mypochtaweb/backlinkbox:latest
+    networks:
+      - mylinkbox
+
+  mongo:
+    image: mongo
+    networks:
+      - mylinkbox
+
+networks:
+  mylinkbox:
+  proxy:
+    external: true
+
+volumes:
+  mongo_data:
