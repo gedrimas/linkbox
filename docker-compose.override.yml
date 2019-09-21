@@ -3,5 +3,7 @@ version: '2.3'
 services:
   front:
     build: .
-    volumes:
-      - ./front:/app
+    # volumes:
+      # - ./:/app
+    ports:
+      - 3000:3000

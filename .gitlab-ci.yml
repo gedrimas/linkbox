@@ -1,0 +1,43 @@
+stages:
+  - build
+  - build_docker
+  - deploy
+
+build_template: &build_template
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    <<: &build_artifact_path_template
+      paths:
+        - ./public
+
+build_master:
+  <<: *build_template
+  before_script:
+    - echo "master"
+
+build_docker_template: &build_docker_template
+  stage: build_docker
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE .
+  after_script:
+    - docker push $CI_REGISTRY_IMAGE
+
+build_docker_master:
+  <<: *build_docker_template
+  before_script:
+    - echo "master"
+
+deploy_template: &deploy_template
+  stage: deploy
+  script:
+    - scp docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
+    - ssh root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose up -d"
+
+deploy_master:
+  <<: *deploy_template
+  before_script:
+    - echo "master"
+  only:
+    - master
