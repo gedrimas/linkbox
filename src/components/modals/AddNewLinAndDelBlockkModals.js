@@ -98,7 +98,10 @@ export default function AddNewLinAndDelBlockkModals(props) {
 
       <Modal show={showAddLinkModal} onHide={() => setShowAddLinkModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Adding new link</Modal.Title>
+          <Modal.Title>
+            Adding new link<br/>
+            (for exempal: https://github.com/)
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <InputGroup className="mb-3">

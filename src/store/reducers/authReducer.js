@@ -3,6 +3,9 @@ import CON from '../constants'
 const initialState = {
   token: '',
   isModalShow: false,
+  registerError: '',
+  authError: '',
+  cookies: '',
 }
 
 const registration = (state = initialState, action) => {
@@ -15,10 +18,35 @@ const registration = (state = initialState, action) => {
     case (CON.REGISTRATION_SUCCESS):
       return {
         ...state,
-        //token: `JWT ${action.payload}`,
-        token: `${action.payload}`,
+        token: `${action.payload.token}`,
+        cookies: action.payload.cookies,
         
       }
+    case (CON.REGISTRATION_FAILURE):
+      return {
+        ...state,
+        registerError: action.payload,
+      }
+
+    case (CON.AUTHORIZATION_START):
+      return {
+        ...state,
+        token: 'pending',
+      }
+/*     case (CON.AUTHORIZATION_SUCCESS):
+      return {
+        ...state,
+        token: `${action.payload.token}`,
+        cookies: action.payload.cookies,
+        
+      } */
+    case (CON.AUTHORIZATION_FAILURE):
+      return {
+        ...state,
+        authError: action.payload,
+      }
+
+
     case (CON.SIGN_MODAL_SHOW):
       return {
         ...state,
@@ -31,8 +59,15 @@ const registration = (state = initialState, action) => {
       }
     case (CON.SIGN_OUT):
       return {
-        ...initialState
+        ...state,
+        token: '',
+        ...initialState,
       }
+    case (CON.TRIM_ERROR_MESSAGE):
+      return {
+        ...state,
+        registerError: '', 
+      }   
     default:
       return state
   }

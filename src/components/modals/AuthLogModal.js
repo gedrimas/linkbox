@@ -14,7 +14,7 @@ import {
   Badge,
 } from 'react-bootstrap'
 
-import { registration, authorization, signOut, showSignModal, hideSignModal } from '../../store/actions/authRegActions'
+import { registration, authorization, signOut, showSignModal, hideSignModal, trimErrorMessage } from '../../store/actions/authRegActions'
 
 const StyledBadgeDiv = styled.div`
   position: fixed;
@@ -49,8 +49,13 @@ export default function AuthLogModal(props) {
   const [cookies, setCookies] = useCookies(['linkBoxName', 'linkBoxPass'])
 
   const dispatch = useDispatch()
+
   const token = useSelector(state => state.registration.token)
-  const state = useSelector(st => st)
+  const registerError = useSelector(state => state.registration.registerError)
+  const userCookies = useSelector(state => state.registration.cookies)
+
+
+  const state = useSelector(state => state)
 
   const signInOrOutAndDellCookies = () => {
     if (logButtonText === 'Sign in'){
@@ -70,10 +75,23 @@ export default function AuthLogModal(props) {
     }
   })
 
-  if (token && isFetchData && !cookies.linkBoxPass && !cookies.linkBoxName) {
-    setCookies('linkBoxName', logName || regName)
-    setCookies('linkBoxPass', logPass || regPass)
-    setFetchData(false)
+  useEffect(() => {
+    if (token !== 'pending' && token && !registerError) {
+      setCookies('linkBoxName', userCookies.name)
+      setCookies('linkBoxPass', userCookies.pass)
+      props.setModalShow(false)
+    }else {
+      setCookies('linkBoxName', '')
+      setCookies('linkBoxPass', '')
+    }
+  }, [token])
+
+  useEffect(() => {
+    if(registerError) setWornMessage(registerError.err)
+  })
+
+  const dataCheckerBeforeCloseModal = async () => {
+    
   }
 
   const handleRegOrAuthButton = () => {
@@ -83,26 +101,33 @@ export default function AuthLogModal(props) {
         return
       }
       dispatch(registration({ regName, regPass }))
-      dispatch(hideSignModal())
-      setCookies('linkBoxName', regName)
-      setCookies('linkBoxPass', regPass)
-      props.setModalShow(false)
+      //dispatch(hideSignModal())
+      //props.setModalShow(false)
     }else if(action === 'second'){
       if(!logName || !logPass) {
         setWornMessage('Fields should not be empty')
         return
       }
       dispatch(authorization({ logName, logPass }))
-      dispatch(hideSignModal())
-      setCookies('linkBoxName', logName)
-      setCookies('linkBoxPass', logPass)
-      setAction('first')
-      props.setModalShow(false)
+      //dispatch(hideSignModal())
+      //setAction('first')
+      //props.setModalShow(false)
     }
     setLogName('')
     setLogPass('')
     setRegName('')
     setRegPass('')
+    setWornMessage('')
+    dispatch(trimErrorMessage(''))
+
+  }
+
+  const setNameForRegistration = (e) => {
+    if (wornMessage) {
+      setWornMessage('')
+      dispatch(trimErrorMessage())
+    }
+    setRegName(e)
   }
 
   return (
@@ -138,6 +163,7 @@ export default function AuthLogModal(props) {
                       onSelect={(selected) => { 
                         setAction(selected) 
                         setWornMessage('')
+                        dispatch(trimErrorMessage(''))
                       }}
                     >
                         Registr your new LinkBox
@@ -148,7 +174,8 @@ export default function AuthLogModal(props) {
                       eventKey="second"
                       onSelect={(selected) => { 
                         setAction(selected) 
-                        setWornMessage('')                        
+                        setWornMessage('')
+                        dispatch(trimErrorMessage(''))                       
                       }}
                     >
                         Enter to your LinkBox
@@ -166,7 +193,7 @@ export default function AuthLogModal(props) {
                       <FormControl
                         aria-label="Default"
                         aria-describedby="inputGroup-sizing-default"
-                        onChange={e => setRegName(e.target.value)}
+                        onChange={e => setNameForRegistration(e.target.value)}
                         value={regName}
                       />
                     </InputGroup>

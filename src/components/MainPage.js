@@ -24,6 +24,8 @@ export default function MainPage() {
   const data = useSelector(state => state.dnd)
 
   const dispatch = useDispatch()
+
+  
   const onDragStart = (start) => {
     const startColumn = data.columnOrder.indexOf(start.source.droppableId)
     setStartColumnIndex(startColumn)
