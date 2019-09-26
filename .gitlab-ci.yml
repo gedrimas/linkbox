@@ -23,6 +23,7 @@ build_master:
   <<: *build_template
   after_script:
     - ls -l ./build
+    - cat /root/.npm/_logs/*.log
 
 build_docker_template: &build_docker_template
   stage: build_docker
