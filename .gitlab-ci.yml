@@ -11,6 +11,8 @@ build_template: &build_template
   before_script:
     - npm cache clean --force
     - rm -rf node_modules
+    - npm install phantomjs-prebuilt
+    - npm install node-sass
     - node --version
     - npm install
   script:
