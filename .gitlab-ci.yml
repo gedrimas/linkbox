@@ -9,7 +9,7 @@ build_template: &build_template
   stage: build
   script:
     - npm install
-    - npm run react-scripts build
+    - npm run build
   artifacts:
     <<: &build_artifact_path_template
       paths:
