@@ -9,11 +9,8 @@ build_template: &build_template
   stage: build
   image: node:12.10-alpine
   before_script:
-    - npm cache clean --force
     - rm -rf node_modules
-    - npm install phantomjs-prebuilt
     - npm install node-sass
-    - node --version
     - npm install
   script:
     - npm run build
