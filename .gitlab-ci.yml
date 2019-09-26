@@ -1,5 +1,3 @@
-image: node:12.3.0
-
 stages:
   - build
   - build_docker
@@ -7,8 +5,10 @@ stages:
 
 build_template: &build_template
   stage: build
-  script:
+  image: node:12.3.0
+  before_script:
     - npm install
+  script:
     - CI=false npm run build
   artifacts:
     <<: &build_artifact_path_template
@@ -17,7 +17,7 @@ build_template: &build_template
 
 build_master:
   <<: *build_template
-  before_script:
+  after_script:
     - echo "master"
 
 build_docker_template: &build_docker_template
