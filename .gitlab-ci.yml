@@ -8,7 +8,7 @@ stages:
 build_template: &build_template
   stage: build
   script:
-    - npm install
+    - npm install --progress=false
     - npm run build
   artifacts:
     <<: &build_artifact_path_template
