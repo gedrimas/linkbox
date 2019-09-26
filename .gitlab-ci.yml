@@ -22,6 +22,7 @@ build_master:
 
 build_docker_template: &build_docker_template
   stage: build_docker
+  image: docker:latest
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
   after_script:
