@@ -13,7 +13,7 @@ build_template: &build_template
   artifacts:
     <<: &build_artifact_path_template
       paths:
-        - build
+        - ./build
 
 build_master:
   <<: *build_template
