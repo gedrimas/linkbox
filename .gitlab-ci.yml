@@ -1,19 +1,15 @@
-image: node:12.10-alpine
-
 stages:
   - build
   - build_docker
   - deploy
 
-build_template: &build_template
+.build_template: &build_template
   stage: build
-  image: node:12.10-alpine
+  image: node:12.3.0
   before_script:
-    - rm -rf node_modules
-    - npm install node-sass
     - npm install
   script:
-    - npm run build
+    - CI=false npm run build
   artifacts:
     <<: &build_artifact_path_template
       paths:
@@ -22,11 +18,11 @@ build_template: &build_template
 build_master:
   <<: *build_template
   after_script:
-    - ls -l ./build
-    - cat /root/.npm/_logs/*.log
+    - echo "master"
 
-build_docker_template: &build_docker_template
+.build_docker_template: &build_docker_template
   stage: build_docker
+  image: docker:latest
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
   after_script:
@@ -37,8 +33,15 @@ build_docker_master:
   before_script:
     - echo "master"
 
-deploy_template: &deploy_template
+.deploy_template: &deploy_template
   stage: deploy
+  image: alpine-ssh-client
+  before_script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$SSH_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
   script:
     - scp docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
     - ssh root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose up -d"
