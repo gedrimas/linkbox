@@ -1,3 +1,5 @@
+image: node
+
 stages:
   - build
   - build_docker
@@ -10,7 +12,7 @@ build_template: &build_template
   artifacts:
     <<: &build_artifact_path_template
       paths:
-        - ./public
+        - ./build
 
 build_master:
   <<: *build_template

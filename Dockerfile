@@ -1,7 +1,7 @@
-FROM node
-RUN mkdir -p /app
-COPY . /app
-WORKDIR /app
-RUN npm install
-EXPOSE 3000
-ENTRYPOINT ["npm", "start"]
+FROM nginx:stable
+
+RUN sed -i 's|worker_processes  1;|worker_processes  auto;|' /etc/nginx/nginx.conf \
+    && sed -i 's|server_name  localhost|server_name  _|' /etc/nginx/conf.d/default.conf \
+    && sed -i 's|root   /usr/share/nginx/html|root   /app/htdocs/|' /etc/nginx/conf.d/default.conf
+
+COPY build/ /app/htdocs/
