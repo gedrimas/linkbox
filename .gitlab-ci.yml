@@ -1,4 +1,4 @@
-image: node
+image: node:12.10-alpine
 
 stages:
   - build
@@ -7,8 +7,11 @@ stages:
 
 build_template: &build_template
   stage: build
-  script:
+  before_script:
+    - rm -rf node_modules
+    - node --version
     - npm install
+  script:
     - npm run build
   artifacts:
     <<: &build_artifact_path_template
@@ -17,8 +20,8 @@ build_template: &build_template
 
 build_master:
   <<: *build_template
-  before_script:
-    - echo "master"
+  after_script:
+    - ls -l ./build
 
 build_docker_template: &build_docker_template
   stage: build_docker
