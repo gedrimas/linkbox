@@ -59,8 +59,8 @@ build_docker_dev:
     - echo "$SSH_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
   script:
-    - scp docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
-    - ssh root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose up -d"
+    - scp -o "StrictHostKeyChecking=no" docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
+    - ssh -o "StrictHostKeyChecking=no" root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose up -d"
 
 deploy_master:
   <<: *deploy_template
