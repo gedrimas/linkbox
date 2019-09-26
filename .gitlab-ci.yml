@@ -17,21 +17,37 @@ stages:
 
 build_master:
   <<: *build_template
-  after_script:
-    - echo "master"
+  only:
+    - master
+
+build_dev:
+  <<: *build_template
+  only:
+    - dev
 
 .build_docker_template: &build_docker_template
   stage: build_docker
   image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: master
   script:
-    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker build -t $CI_REGISTRY_IMAGE-${IMAGE_TAG} .
   after_script:
-    - docker push $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE:${IMAGE_TAG}
 
 build_docker_master:
   <<: *build_docker_template
-  before_script:
-    - echo "master"
+  only:
+    - master
+
+build_docker_dev:
+  <<: *build_docker_template
+  variables:
+    IMAGE_TAG: dev
+  only:
+    - dev
 
 .deploy_template: &deploy_template
   stage: deploy
