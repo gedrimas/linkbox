@@ -5,7 +5,6 @@ services:
     image: registry.gitlab.com/mypochtaweb/linkbox
     environment:
       VIRTUAL_HOST: mylinkbox.ru
-      VIRTUAL_PORT: 3000
     networks:
       - mylinkbox
       - proxy
