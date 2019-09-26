@@ -8,6 +8,7 @@ stages:
 build_template: &build_template
   stage: build
   before_script:
+    - npm cache clean --force
     - rm -rf node_modules
     - node --version
     - npm install
