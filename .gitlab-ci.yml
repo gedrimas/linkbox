@@ -65,6 +65,6 @@ build_docker_dev:
 deploy_master:
   <<: *deploy_template
   before_script:
-    - echo "master"
+    - echo "$SSH_KEY"
   only:
     - master
