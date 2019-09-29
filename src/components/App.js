@@ -24,7 +24,6 @@ export default function App() {
       dispatch(authorization({ logName, logPass }))
       setModalShow(false)
       setFetchData(false)
-      //setShowSpinner(true)
     }   
   }, [])
 
