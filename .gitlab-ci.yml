@@ -56,7 +56,7 @@ build_docker_dev:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - echo "${SSH_KEY}" > ~/.ssh/id_rsa
+    - echo "$SSH_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
   script:
     - scp -o "StrictHostKeyChecking=no" docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
