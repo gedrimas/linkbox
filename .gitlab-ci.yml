@@ -32,6 +32,8 @@ build_dev:
     - docker:dind
   variables:
     IMAGE_TAG: master
+  before_script:
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
   script:
     - docker build -t $CI_REGISTRY_IMAGE-${IMAGE_TAG} .
   after_script:
