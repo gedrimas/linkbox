@@ -1,4 +1,3 @@
-
 import qs from 'qs'
 import CON from '../constants'
 import { state } from '../../data/initialState'
@@ -48,7 +47,7 @@ export function registrationOrAuthFailure(err) {
   }
 }
 
-export const saveInintalUserState = token => fetch(`http://${backHost}/mylinks`, {
+export const saveInintalUserState = token => fetch(`https://${backHost}/mylinks`, {
   method: 'POST',
   headers: {
     Authorization: `JWT ${token}`,
@@ -58,7 +57,7 @@ export const saveInintalUserState = token => fetch(`http://${backHost}/mylinks`,
 }).then(res => console.log(res))
 
 export const saveUserChanges = (token, newUserState) => {
-  fetch(`http://${backHost}/mylinks`, {
+  fetch(`https://${backHost}/mylinks`, {
     method: 'POST',
     headers: {
       Authorization: `JWT ${token}`,
@@ -68,7 +67,7 @@ export const saveUserChanges = (token, newUserState) => {
   }).then(res => console.log(res))
 }
 
-const getUserToken = paramsToGetToken => fetch(`http://${backHost}/sign_in`, {
+const getUserToken = paramsToGetToken => fetch(`https://${backHost}/sign_in`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -76,7 +75,7 @@ const getUserToken = paramsToGetToken => fetch(`http://${backHost}/sign_in`, {
   body: qs.stringify(paramsToGetToken),
 }).then(res => res.json())
 
-const getUserData = token => fetch(`http://${backHost}/mylinks`, {
+const getUserData = token => fetch(`https://${backHost}/mylinks`, {
   method: 'GET',
   headers: {
     Authorization: `JWT ${token}`,
@@ -92,7 +91,7 @@ export function registration({ regName, regPass }) {
       password: regPass,
     }
 
-    const userRegistration = () => fetch(`http://${backHost}/register`, {
+    const userRegistration = () => fetch(`https://${backHost}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
