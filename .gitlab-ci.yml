@@ -60,6 +60,7 @@ build_docker_dev:
     - chmod 600 ~/.ssh/id_rsa
   script:
     - scp -o "StrictHostKeyChecking=no" -i ~/.ssh/id_rsa docker-compose.yml root@mylinkbox.ru:~/${PROJECT_NAME}/docker-compose.yml
+    - ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/id_rsa root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose pull"
     - ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/id_rsa root@mylinkbox.ru "cd ~/${PROJECT_NAME} && docker-compose up -d"
 
 deploy_master:
