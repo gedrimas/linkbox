@@ -37,7 +37,9 @@ build_dev:
   script:
     - docker build -t $CI_REGISTRY_IMAGE:${IMAGE_TAG} .
   after_script:
+    - docker tag $CI_REGISTRY_IMAGE:${IMAGE_TAG} $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:${IMAGE_TAG}
+    - docker push $CI_REGISTRY_IMAGE:latest
 
 build_docker_master:
   <<: *build_docker_template
