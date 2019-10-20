@@ -150,6 +150,16 @@ export default function AuthLogModal(props) {
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Welcome to LinkBox!
+            <Nav.Link 
+              href="https://www.youtube.com/watch?v=UIZIwzr1ocA&feature=youtu.be"
+              style={{
+                color: 'red', 
+                padding: '0',
+                fontSize: '12px',
+              }}
+            >
+              See how to use
+            </Nav.Link>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
