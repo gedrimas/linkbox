@@ -100,7 +100,7 @@ export default function AddNewLinAndDelBlockkModals(props) {
         <Modal.Header closeButton>
           <Modal.Title>
             Adding new link<br/>
-            (for exempal: https://github.com/)
+            (for exampal: https://github.com/)
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

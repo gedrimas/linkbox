@@ -202,6 +202,7 @@ export default function AuthLogModal(props) {
                         <InputGroup.Text id="inputGroup-sizing-default">set your password</InputGroup.Text>
                       </InputGroup.Prepend>
                       <FormControl
+                        type="password"
                         aria-label="Default"
                         aria-describedby="inputGroup-sizing-default"
                         onChange={e => setRegPass(e.target.value)}
