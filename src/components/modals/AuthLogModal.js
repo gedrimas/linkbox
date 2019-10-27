@@ -90,9 +90,10 @@ export default function AuthLogModal(props) {
     if(registerError) setWornMessage(registerError.err)
   })
 
-  const dataCheckerBeforeCloseModal = async () => {
-    
-  }
+  useEffect(() => {
+    let screenObj = window.screen
+    console.log('screenObj', screenObj)
+  })
 
   const handleRegOrAuthButton = () => {
     if(action === 'first'){
@@ -187,6 +188,7 @@ export default function AuthLogModal(props) {
                         setWornMessage('')
                         dispatch(trimErrorMessage(''))                       
                       }}
+                      style={{ marginBottom: '17px' }}
                     >
                         Enter to your LinkBox
                     </Nav.Link>
