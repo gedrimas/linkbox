@@ -38,8 +38,8 @@ const StyledFooter = styled(Modal.Footer)`
 
 
 const StyledModal = styled(Modal)`
-  @media only screen and (max-width: 600px) {width: 300px; top: -330px; left: 37px}
-  //@media only screen and (min-width: 600px) {width: 600px; top: -330px; left: 37px}
+  @media only screen and (max-width: 600px) {width: 300px; left: 37px}
+  //@media only screen and (min-width: 600px) {width: 600px; left: 37px}
   //@media only screen and (min-width: 768px) {width: 800px;}
   @media only screen and (min-width: 992px) {width: 1000px;}
   @media only screen and (min-width: 1200px) {width: 1200px;}
