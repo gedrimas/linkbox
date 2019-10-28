@@ -36,6 +36,16 @@ const StyledFooter = styled(Modal.Footer)`
   justify-content: space-between;
 `
 
+
+const StyledModal = styled(Modal)`
+  @media only screen and (max-width: 600px) {width: 300px}
+  @media only screen and (min-width: 600px) {width: 600px}
+  @media only screen and (min-width: 768px) {width: 800px}
+  @media only screen and (min-width: 992px) {width: 1000px}
+  @media only screen and (min-width: 1200px) {width: 1200px}
+  `
+  
+
 export default function AuthLogModal(props) {
   const [regName, setRegName] = useState('')
   const [regPass, setRegPass] = useState('')
@@ -102,17 +112,13 @@ export default function AuthLogModal(props) {
         return
       }
       dispatch(registration({ regName, regPass }))
-      //dispatch(hideSignModal())
-      //props.setModalShow(false)
+
     }else if(action === 'second'){
       if(!logName || !logPass) {
         setWornMessage('Fields should not be empty')
         return
       }
       dispatch(authorization({ logName, logPass }))
-      //dispatch(hideSignModal())
-      //setAction('first')
-      //props.setModalShow(false)
     }
     setLogName('')
     setLogPass('')
@@ -142,7 +148,7 @@ export default function AuthLogModal(props) {
           {logButtonText}
         </StyledBage>
       </StyledBadgeDiv>
-      <Modal
+      <StyledModal
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -262,7 +268,7 @@ export default function AuthLogModal(props) {
             {action === 'first' ? 'Registration' : 'Authorizaition'}
           </Button>
         </StyledFooter>
-      </Modal>
+      </StyledModal>
     </>
   )
 }
