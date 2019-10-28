@@ -38,12 +38,12 @@ const StyledFooter = styled(Modal.Footer)`
 
 
 const StyledModal = styled(Modal)`
-  @media only screen and (max-width: 600px) {width: 300px}
-  @media only screen and (min-width: 600px) {width: 600px}
-  @media only screen and (min-width: 768px) {width: 800px}
-  @media only screen and (min-width: 992px) {width: 1000px}
-  @media only screen and (min-width: 1200px) {width: 1200px}
-  `
+  @media only screen and (max-width: 600px) {width: 300px; top: -330px; left: 37px}
+  //@media only screen and (min-width: 600px) {width: 600px; top: -330px; left: 37px}
+  //@media only screen and (min-width: 768px) {width: 800px;}
+  @media only screen and (min-width: 992px) {width: 1000px;}
+  @media only screen and (min-width: 1200px) {width: 1200px;}
+`
   
 
 export default function AuthLogModal(props) {
@@ -217,7 +217,7 @@ export default function AuthLogModal(props) {
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroup.Prepend>
-                        <InputGroup.Text id="inputGroup-sizing-default">set your password</InputGroup.Text>
+                        <InputGroup.Text id="inputGroup-sizing-default">set password</InputGroup.Text>
                       </InputGroup.Prepend>
                       <FormControl
                         type="password"
@@ -231,7 +231,9 @@ export default function AuthLogModal(props) {
                   <Tab.Pane eventKey="second">
                     <InputGroup className="mb-3">
                       <InputGroup.Prepend>
-                        <InputGroup.Text id="inputGroup-sizing-default">Name</InputGroup.Text>
+                        <InputGroup.Text id="inputGroup-sizing-default">
+                          Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </InputGroup.Text>
                       </InputGroup.Prepend>
                       <FormControl
                         aria-label="Default"
