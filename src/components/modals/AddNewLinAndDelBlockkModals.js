@@ -63,6 +63,7 @@ export default function AddNewLinAndDelBlockkModals(props) {
       [linkId]: {
         id: linkId,
         link,
+        showPics: true,
       },
     }
 

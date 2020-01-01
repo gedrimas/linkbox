@@ -100,7 +100,6 @@ export default function AuthLogModal(props) {
 
   useEffect(() => {
     let screenObj = window.screen
-    console.log('screenObj', screenObj)
   })
 
   const handleRegOrAuthButton = () => {

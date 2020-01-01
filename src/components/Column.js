@@ -9,7 +9,7 @@ import AddNewLinAndDelBlockkModals from './modals/AddNewLinAndDelBlockkModals'
 const StyledCard = styled(Card)`
   margin: 8px;
   background-color: white;
-  width: 220px;
+  width: 30vw;
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;

@@ -5,11 +5,12 @@ import { Card, Badge } from 'react-bootstrap'
 import ReactTinyLink from 'react-tiny-link'
 import { useDispatch, useSelector } from 'react-redux' 
 import dnd from '../store/reducers/dndReducer';
-import { dellLink } from '../store/actions/contentActions'
+import { dellLink, hidePics } from '../store/actions/contentActions'
 import { saveUserChanges } from '../store/actions/authRegActions'
 
 const StyledBage = styled(Badge)`
   margin-bottom: 5px;
+  margin-left: 5px;
   :hover {
     cursor: pointer;
     outline: 1px solid #03F6FA;
@@ -18,7 +19,6 @@ const StyledBage = styled(Badge)`
     border-radius: 0;
   }
 `
-
 export default function Link(props) {
 
   const {
@@ -30,6 +30,9 @@ export default function Link(props) {
     link: {
       link: link,
     },
+    link: {
+      showPics: showPics,
+    }
   } = props
 
   const dispatch = useDispatch()
@@ -37,6 +40,7 @@ export default function Link(props) {
   const registration = useSelector(state => state.registration)
   const newUserState = {}
   newUserState.state = useSelector(state => state.dnd)
+
   let token = ''
   if (registration.token) token = registration.token
   
@@ -51,6 +55,19 @@ export default function Link(props) {
       }
     }
     dispatch(dellLink({ parentBlock, arrOfLinksIds, id }))
+  }
+
+  const hideOrShoePics = () => {
+    const arrOfLinksIds = [...columns[parentBlock].linksIds]
+    const isNoEmpty = arrOfLinksIds.length
+    if (isNoEmpty) {
+      for (let i = 0; i < isNoEmpty; i++) {
+        if (arrOfLinksIds[i] === id) {
+          arrOfLinksIds.splice(i, 1)
+        }
+      }
+    }
+    dispatch(hidePics({ parentBlock, arrOfLinksIds, id }))
   }
 
   return (
@@ -72,11 +89,19 @@ export default function Link(props) {
               >
                 Del
               </StyledBage>
+              <StyledBage 
+                variant="info"
+                onClick={hideOrShoePics}
+              >
+                {showPics ? "Hide pics" : "Show pics"}
+              </StyledBage>
               <ReactTinyLink
                 cardSize="large"
-                showGraphic={true}
-                maxLine={5}        
-                header={true}
+                showGraphic={showPics}
+                maxLine={5}
+                minLine={5}        
+                header={false}
+                description={false}
                 url={link}
               />
             </Card.Body>

@@ -26,7 +26,6 @@ function authirizationFalue(error) {
 }
 
 function registrationSuccess(token) {
-  console.log('registrationSuccess', token)
   return {
     type: CON.REGISTRATION_SUCCESS,
     payload: token,
@@ -145,14 +144,12 @@ export function authorization({ logName, logPass }) {
     const authAndGetUserData = async () => {
       try {
         const response = await getUserToken(paramsToGetToken)
-        console.log('222222222222222222222')
         if (response.message) throw new Error(response.message)
         const { token } = response
         const { state: userState } = await getUserData(token)
         dispatch(registrationSuccess({ token, cookies: {name, pass} }))
         dispatch(setUserState(userState))
       } catch(error) {
-        console.log('response from authorization', error.message)
         dispatch(registrationOrAuthFailure(error.message))
       }
     }

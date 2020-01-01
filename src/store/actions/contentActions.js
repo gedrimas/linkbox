@@ -37,6 +37,20 @@ export function deletLinkAction(linkParams) {
   }
 }
 
+export function hidePicsAction(linkParams) {
+  return {
+    type: CON.HIDE_PICS,
+    payload: linkParams,
+  }
+}
+
+export function hidePics(linkParams) {
+  return (dispatch, getState) => {
+    dispatch(hidePicsAction(linkParams))
+    getActualStateAndSaveToDb(getState, saveUserChanges)
+  }
+}
+
 export function dellLink(linkParams) {
   return (dispatch, getState) => {
     dispatch(deletLinkAction(linkParams))
@@ -52,7 +66,6 @@ export function deletBlockAction(blockParams) {
 }
 
 export function dellBlock(blockParams) {
-  console.log('blockParams', blockParams)
   return (dispatch, getState) => {
     dispatch(deletBlockAction(blockParams))
     getActualStateAndSaveToDb(getState, saveUserChanges)

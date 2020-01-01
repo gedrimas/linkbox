@@ -22,6 +22,14 @@ const dnd = (state = initialState, action) => {
           ...state.links, [action.payload.linkId]: action.payload.newLink[action.payload.linkId],
         },
       }
+    case CON.HIDE_PICS:
+      return {
+        ...state, links: {
+          ...state.links, [action.payload.id]: {
+            ...state.links[action.payload.id], showPics: !state.links[action.payload.id].showPics,
+          }
+        },
+      }
     case CON.DEL_LINK:
       delete state.links[action.payload.id]
       return {
